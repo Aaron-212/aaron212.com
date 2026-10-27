@@ -26,6 +26,9 @@ coverage.
 
 ## Coding Style & Naming Conventions
 
+When writing Chinese, do not insert spaces between Chinese characters and adjacent Latin letters or digits. For
+example, write `我的iPhone`, not `我的 iPhone`. The browser CSS handles the visual spacing during rendering.
+
 Use TypeScript for non-trivial logic and Astro components for UI. Follow oxfmt’s existing formatting (two-space indentation, double quotes, and no trailing commas).
 
 Prefer Flexbox layouts when possible. Follow these Tailwind UI conventions:
