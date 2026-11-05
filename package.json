@@ -19,9 +19,9 @@
     "lint": "oxlint --ignore-path=.gitignore ."
   },
   "devDependencies": {
-    "@aaron212/astro-highlights": "0.0.1",
-    "@aaron212/astro-pele": "0.1.1",
-    "@aaron212/astro-typlet": "0.3.2",
+    "@aaron212/astro-highlights": "^0.0.4",
+    "@aaron212/astro-pele": "^0.1.1",
+    "@aaron212/astro-typlet": "^0.3.2",
     "@astrojs/check": "^0.9.10",
     "@astrojs/mdx": "^7.0.8",
     "@astrojs/sitemap": "^3.7.4",

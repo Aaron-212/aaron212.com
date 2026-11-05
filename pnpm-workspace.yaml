@@ -2,4 +2,4 @@ allowBuilds:
   esbuild: true
   workerd: true
 minimumReleaseAgeExclude:
-  - "@aaron212/astro-highlights@0.0.1"
+  - "@aaron212/astro-highlights@0.0.4"
