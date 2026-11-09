@@ -1,9 +1,22 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@theme {
+  --color-canvas: light-dark(var(--color-white), var(--color-black));
+  --color-foreground: light-dark(var(--color-black), var(--color-white));
+  --color-surface: light-dark(var(--color-slate-50), var(--color-slate-950));
+  --color-surface-muted: light-dark(var(--color-slate-100), var(--color-slate-900));
+  --color-surface-hover: light-dark(var(--color-slate-200), var(--color-slate-800));
+  --color-border: light-dark(var(--color-slate-200), var(--color-slate-800));
+  --color-muted: light-dark(var(--color-slate-700), var(--color-slate-300));
+  --color-secondary: light-dark(var(--color-slate-600), var(--color-slate-300));
+  --color-subtle: light-dark(var(--color-slate-500), var(--color-slate-400));
+  --color-accent: light-dark(var(--color-blue-600), var(--color-blue-400));
+}
+
 :root {
   color-scheme: light dark;
-  @apply bg-white text-black dark:bg-black dark:text-white;
+  @apply bg-canvas text-foreground;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, ui-sans, "Segoe UI", sans-serif;
   text-autospace: normal;
 }
@@ -14,11 +27,7 @@
 
 @utility prose-inline-code {
   & code:not(pre code) {
-    @apply rounded bg-slate-100 px-1 py-0.5 font-medium;
-
-    @variant dark {
-      @apply bg-slate-900;
-    }
+    @apply rounded bg-surface-muted px-1 py-0.5 font-medium;
 
     &::before,
     &::after {
@@ -29,14 +38,18 @@
 
 .astro-highlights,
 .astro-highlights span {
-  background-color: var(--color-slate-50) !important;
+  background-color: var(--color-surface) !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  .astro-highlights,
-  .astro-highlights span {
-    background-color: var(--color-slate-950) !important;
-  }
+.astro-pele {
+  --pele-bg: var(--color-canvas);
+  --pele-fg: var(--color-foreground);
+  --pele-muted: var(--color-subtle);
+  --pele-line: var(--color-foreground);
+  --pele-surface: var(--color-surface);
+  --pele-surface-alt: var(--color-surface-muted);
+  --pele-border: var(--color-subtle);
+  --pele-accent: var(--color-accent);
 }
 
 .prose :is(h1, h2, h3, h4, h5, h6) {
@@ -44,5 +57,5 @@
 }
 
 .prose a {
-  @apply hover:underline;
+  @apply text-accent no-underline hover:underline;
 }

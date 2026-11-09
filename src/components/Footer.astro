@@ -34,7 +34,7 @@ const localeOptions = [
 const currentLocaleLabel = localeOptions.find(({ locale }) => locale === currentLocale)?.label ?? currentLocale;
 ---
 
-<footer class="mt-16 flex min-h-32 flex-col items-center justify-center bg-slate-100 text-center text-slate-600 select-none dark:bg-slate-900 dark:text-slate-300">
+<footer class="mt-16 flex min-h-32 flex-col items-center justify-center bg-surface-muted text-center text-secondary select-none">
   <div class="flex w-full max-w-4xl flex-row items-center justify-between gap-4 px-6">
     <div class="flex flex-col items-start gap-1">
       <p>© 2021-{year} Aaron212</p>
@@ -50,7 +50,7 @@ const currentLocaleLabel = localeOptions.find(({ locale }) => locale === current
 
     <details class="group relative">
       <summary
-        class="flex cursor-pointer list-none items-center gap-2 rounded-lg px-3 py-2 transition-colors hover:bg-slate-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:hover:bg-slate-800 dark:focus-visible:outline-blue-400"
+        class="flex cursor-pointer list-none items-center gap-2 rounded-lg px-3 py-2 transition-colors hover:bg-surface-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         aria-label={t.ariaSwitchLanguage}
       >
         <span>{currentLocaleLabel}</span>
@@ -64,10 +64,10 @@ const currentLocaleLabel = localeOptions.find(({ locale }) => locale === current
               href={`${getRelativeLocaleUrl(locale, routePath)}${Astro.url.search}`}
               lang={locale}
               aria-current={locale === currentLocale ? "page" : undefined}
-              class="block rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-blue-600 dark:hover:bg-slate-800 dark:focus-visible:outline-blue-400"
+              class="block rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-accent dark:hover:bg-slate-800"
               class:list={[
                 {
-                  "font-medium text-black dark:text-white": locale === currentLocale,
+                  "font-medium text-foreground": locale === currentLocale,
                 },
               ]}
             >

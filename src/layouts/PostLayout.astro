@@ -47,7 +47,7 @@ const tableOfContents = headings.filter(({ depth }) => depth >= 2 && depth <= 3)
       ]}
     >
       <h1>{title}</h1>
-      <p lang={locale} class="text-slate-500 dark:text-slate-400">
+      <p lang={locale} class="text-subtle">
         <time datetime={date.toISOString()}>{date.toLocaleDateString(locale)}</time>
       </p>
       <slot />

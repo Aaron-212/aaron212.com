@@ -54,7 +54,7 @@ const defaultLocaleUrl = getAbsoluteLocaleUrl(baseLocale, routePath);
     <slot name="head" />
     <ClientRouter />
   </head>
-  <body class="flex min-h-dvh flex-col bg-white text-black dark:bg-black dark:text-white">
+  <body class="flex min-h-dvh flex-col bg-canvas text-foreground">
     <Header />
     <main id="content" tabindex="-1" class="mt-4 flex-1 scroll-mt-16 select-none">
       <slot />

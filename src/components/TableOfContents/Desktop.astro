@@ -15,19 +15,19 @@ const t = messages[getLocale(Astro.currentLocale)];
 <nav
   aria-label={t.tocAriaLabel}
   data-table-of-contents
-  class="not-prose hidden rounded-lg border border-slate-200 p-5 dark:border-slate-800 lg:sticky lg:top-24 lg:block lg:max-h-[calc(100dvh-8rem)] lg:w-64 lg:flex-none lg:overflow-y-auto 2xl:w-74"
+  class="not-prose hidden rounded-lg border border-border p-5 lg:sticky lg:top-24 lg:block lg:max-h-[calc(100dvh-8rem)] lg:w-64 lg:flex-none lg:overflow-y-auto 2xl:w-74"
 >
   <p class="mb-3 text-sm font-semibold uppercase tracking-wide">{t.tocOnThisPage}</p>
   <div class="relative">
     <span
       aria-hidden="true"
-      class="pointer-events-none absolute inset-s-0 top-0 h-0 border-s-2 border-s-blue-600 opacity-0 transition-[height,transform,opacity] duration-300 ease-out motion-reduce:transition-none dark:border-s-blue-400"
+      class="pointer-events-none absolute inset-s-0 top-0 h-0 border-s-2 border-s-accent opacity-0 transition-[height,transform,opacity] duration-300 ease-out motion-reduce:transition-none"
       data-toc-indicator
     ></span>
-    <ol lang={lang} class="border-s-2 border-s-black/20 text-sm dark:border-s-white/20">
+    <ol lang={lang} class="border-s-2 border-s-foreground/20 text-sm">
       {headings.map(({ depth, slug, text }) => (
         <li
-          class={`group py-1 text-black/60 transition-colors aria-[current=location]:text-blue-600 hover:text-black dark:text-white/60 dark:aria-[current=location]:text-blue-400 dark:hover:text-white ${
+          class={`group py-1 text-foreground/60 transition-colors aria-[current=location]:text-accent hover:text-foreground ${
             depth === 3 ? "ps-8" : "ps-4"
           }`}
           data-toc-item
