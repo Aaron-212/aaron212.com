@@ -29,7 +29,7 @@ const currentLocaleLabel = localeOptions.find(({ locale }) => locale === current
 
     <details class="group relative">
       <summary
-        class="flex cursor-pointer list-none items-center gap-2 rounded-lg px-3 py-2 transition-colors hover:bg-slate-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-light dark:hover:bg-slate-800 dark:focus-visible:outline-blue-dark"
+        class="flex cursor-pointer list-none items-center gap-2 rounded-lg px-3 py-2 transition-colors hover:bg-slate-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:hover:bg-slate-800 dark:focus-visible:outline-blue-400"
         aria-label={m.ariaSwitchLanguage()}
       >
         <span>{currentLocaleLabel}</span>
@@ -44,7 +44,7 @@ const currentLocaleLabel = localeOptions.find(({ locale }) => locale === current
               lang={locale}
               aria-current={locale === currentLocale ? "page" : undefined}
               class:list={[
-                "block rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-blue-light dark:hover:bg-slate-800 dark:focus-visible:outline-blue-dark",
+                "block rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-blue-600 dark:hover:bg-slate-800 dark:focus-visible:outline-blue-400",
                 locale === currentLocale && "font-medium text-black dark:text-white"
               ]}
             >

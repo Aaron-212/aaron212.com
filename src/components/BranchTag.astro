@@ -1,7 +1,29 @@
 ---
 interface Props {
   name: string;
-  tone: "mint" | "purple";
+  tone:
+    | "slate"
+    | "gray"
+    | "zinc"
+    | "neutral"
+    | "stone"
+    | "red"
+    | "orange"
+    | "amber"
+    | "yellow"
+    | "lime"
+    | "green"
+    | "emerald"
+    | "teal"
+    | "cyan"
+    | "sky"
+    | "blue"
+    | "indigo"
+    | "violet"
+    | "purple"
+    | "fuchsia"
+    | "pink"
+    | "rose";
 }
 
 const { name, tone } = Astro.props;
@@ -9,10 +31,30 @@ const { name, tone } = Astro.props;
 
 <span
   class:list={[
-    "rounded-md px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-white",
+    "rounded-md px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-slate-950 dark:text-white",
     {
-      "bg-mint-light dark:bg-mint-dark": tone === "mint",
-      "bg-purple-light dark:bg-purple-dark": tone === "purple"
+      "bg-slate-300 dark:bg-slate-800": tone === "slate",
+      "bg-gray-300 dark:bg-gray-800": tone === "gray",
+      "bg-zinc-300 dark:bg-zinc-800": tone === "zinc",
+      "bg-neutral-300 dark:bg-neutral-800": tone === "neutral",
+      "bg-stone-300 dark:bg-stone-800": tone === "stone",
+      "bg-red-300 dark:bg-red-800": tone === "red",
+      "bg-orange-300 dark:bg-orange-800": tone === "orange",
+      "bg-amber-300 dark:bg-amber-800": tone === "amber",
+      "bg-yellow-300 dark:bg-yellow-800": tone === "yellow",
+      "bg-lime-300 dark:bg-lime-800": tone === "lime",
+      "bg-green-300 dark:bg-green-800": tone === "green",
+      "bg-emerald-300 dark:bg-emerald-800": tone === "emerald",
+      "bg-teal-300 dark:bg-teal-800": tone === "teal",
+      "bg-cyan-300 dark:bg-cyan-800": tone === "cyan",
+      "bg-sky-300 dark:bg-sky-800": tone === "sky",
+      "bg-blue-300 dark:bg-blue-800": tone === "blue",
+      "bg-indigo-300 dark:bg-indigo-800": tone === "indigo",
+      "bg-violet-300 dark:bg-violet-800": tone === "violet",
+      "bg-purple-300 dark:bg-purple-800": tone === "purple",
+      "bg-fuchsia-300 dark:bg-fuchsia-800": tone === "fuchsia",
+      "bg-pink-300 dark:bg-pink-800": tone === "pink",
+      "bg-rose-300 dark:bg-rose-800": tone === "rose"
     }
   ]}
 >
