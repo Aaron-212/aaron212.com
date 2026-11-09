@@ -1,11 +1,10 @@
 ---
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
-import { m } from "@/paraglide/messages.js";
-import { deLocalizeHref, getLocale } from "@/paraglide/runtime.js";
+import { getLocale, getRoutePath } from "@/lib/i18n";
 import { getAbsoluteLocaleUrl } from "astro:i18n";
 import { ClientRouter } from "astro:transitions";
-import { baseLocale, localeDefinitions } from "../../i18n.config";
+import { baseLocale, localeDefinitions, type Locale } from "../../i18n.config";
 import "@/app.css";
 
 interface Props {
@@ -13,9 +12,21 @@ interface Props {
   description?: string;
 }
 
-const { title, description = m.metaDescription() } = Astro.props;
-const lang = getLocale();
-const routePath = deLocalizeHref(Astro.url.pathname).replace(/^\/+/, "");
+const en = {
+  metaDescription: "Aaron212's portfolio, projects, and blog.",
+};
+
+const messages = {
+  en,
+  "zh-cn": {
+    metaDescription: "Aaron212的个人作品集、项目与博客。",
+  },
+} satisfies Record<Locale, typeof en>;
+
+const lang = getLocale(Astro.currentLocale);
+const t = messages[lang];
+const { title, description = t.metaDescription } = Astro.props;
+const routePath = getRoutePath(Astro.url.pathname);
 const canonicalUrl = getAbsoluteLocaleUrl(lang, routePath);
 const alternateUrls = localeDefinitions.map(({ locale, hreflang }) => ({
   hreflang,

@@ -12,42 +12,81 @@ type LinkGroup = Link & {
   links: Sublink[];
 };
 
-import { m } from "@/paraglide/messages.js";
-import { localizeHref } from "@/paraglide/runtime.js";
+import { getLocale } from "@/lib/i18n";
+import type { Locale } from "../../i18n.config";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+const en = {
+  navHome: "Home",
+  navAbout: "About",
+  navProjects: "Projects",
+  navBlog: "Blog",
+  navDocs: "Docs",
+  navHello: "Hello",
+  navOtherLinks: "Other Links",
+  navPartnerLinks: "Partner Links",
+  ariaSectionMenu: (section: string) => `${section} menu`,
+  ariaMainNavigation: "Main navigation",
+  ariaXProfile: "Aaron212 on X",
+  ariaGithubProfile: "Aaron212 on GitHub",
+  ariaToggleNavigation: "Toggle navigation menu",
+};
+
+const messages = {
+  en,
+  "zh-cn": {
+    navHome: "首页",
+    navAbout: "关于",
+    navProjects: "项目",
+    navBlog: "博客",
+    navDocs: "文档",
+    navHello: "你好",
+    navOtherLinks: "其他链接",
+    navPartnerLinks: "友情链接",
+    ariaSectionMenu: (section: string) => `${section}菜单`,
+    ariaMainNavigation: "主导航",
+    ariaXProfile: "Aaron212的X主页",
+    ariaGithubProfile: "Aaron212的GitHub主页",
+    ariaToggleNavigation: "切换导航菜单",
+  },
+} satisfies Record<Locale, typeof en>;
+
+const locale = getLocale(Astro.currentLocale);
+const t = messages[locale];
 
 const links: LinkGroup[] = [
   {
-    label: m.navHome(),
-    href: localizeHref("/"),
-    links: [{ label: m.navAbout(), href: localizeHref("/about"), showOnMobile: true }],
+    label: t.navHome,
+    href: getRelativeLocaleUrl(locale, "/"),
+    links: [{ label: t.navAbout, href: getRelativeLocaleUrl(locale, "/about"), showOnMobile: true }],
   },
   {
-    label: m.navProjects(),
-    href: localizeHref("/projects"),
+    label: t.navProjects,
+    href: getRelativeLocaleUrl(locale, "/projects"),
     links: [
-      { label: "McSrvrS", href: localizeHref("/projects/mcsrvrs") },
-      { label: "FnPilot", href: localizeHref("/projects/fnpilot") },
-      { label: "NBTPlus", href: localizeHref("/projects/nbtplus") },
+      { label: "McSrvrS", href: getRelativeLocaleUrl(locale, "/projects/mcsrvrs") },
+      { label: "FnPilot", href: getRelativeLocaleUrl(locale, "/projects/fnpilot") },
+      { label: "NBTPlus", href: getRelativeLocaleUrl(locale, "/projects/nbtplus") },
     ],
   },
   {
-    label: m.navBlog(),
-    href: localizeHref("/blog"),
-    links: [{ label: m.navHello(), href: "#" }],
+    label: t.navBlog,
+    href: getRelativeLocaleUrl(locale, "/blog"),
+    links: [{ label: t.navHello, href: "#" }],
   },
   {
-    label: m.navDocs(),
-    href: localizeHref("/docs"),
-    links: [{ label: m.navHello(), href: "#" }],
+    label: t.navDocs,
+    href: getRelativeLocaleUrl(locale, "/docs"),
+    links: [{ label: t.navHello, href: "#" }],
   },
 ];
 
 const rightLinks = {
-  label: m.navOtherLinks(),
+  label: t.navOtherLinks,
   links: [
     {
-      label: m.navPartnerLinks(),
-      href: localizeHref("/partner-links"),
+      label: t.navPartnerLinks,
+      href: getRelativeLocaleUrl(locale, "/partner-links"),
       showOnMobile: true,
     },
   ] satisfies Sublink[],
@@ -64,7 +103,7 @@ import { Icon } from "astro-icon/components";
 <header data-site-header class="pointer-events-none sticky top-0 z-50 h-12 select-none">
   <nav
     data-navigation
-    aria-label={m.ariaMainNavigation()}
+    aria-label={t.ariaMainNavigation}
     class="pointer-events-auto relative flex h-12 w-full flex-col items-center overflow-clip bg-slate-50/80 backdrop-blur-xl transition-all duration-250 ease-in-out motion-reduce:transition-none lg:delay-250 dark:bg-slate-950/80"
   >
     <div class="mx-auto flex h-12 w-full max-w-4xl shrink-0 items-center gap-4 px-6">
@@ -82,7 +121,7 @@ import { Icon } from "astro-icon/components";
             <button
               type="button"
               data-section-trigger
-              aria-label={m.ariaSectionMenu({ section: link.label })}
+              aria-label={t.ariaSectionMenu(link.label)}
               aria-expanded="false"
               aria-controls={`site-submenu-${index}`}
               class="flex min-h-11 min-w-6 shrink-0 cursor-pointer items-center justify-center rounded opacity-0 transition group-hover:opacity-100 group-focus-within:opacity-100 aria-expanded:opacity-100 hover:text-blue-600 focus-visible:text-blue-600 dark:hover:text-blue-400 dark:focus-visible:text-blue-400 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-blue-400"
@@ -116,7 +155,7 @@ import { Icon } from "astro-icon/components";
           <button
             type="button"
             data-section-trigger
-            aria-label={m.navOtherLinks()}
+            aria-label={t.navOtherLinks}
             aria-expanded="false"
             aria-controls="site-submenu-other"
             class="flex min-h-11 min-w-11 shrink-0 cursor-pointer items-center justify-center rounded transition-colors hover:text-blue-600 focus-visible:text-blue-600 dark:hover:text-blue-400 dark:focus-visible:text-blue-400 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-blue-400"
@@ -142,14 +181,14 @@ import { Icon } from "astro-icon/components";
         </div>
         <a
           href="https://x.com/AR___212"
-          aria-label={m.ariaXProfile()}
+          aria-label={t.ariaXProfile}
           class="flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded transition-colors hover:text-blue-600 focus-visible:text-blue-600 dark:hover:text-blue-400 dark:focus-visible:text-blue-400 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-blue-400"
         >
           <Icon name="fa7-brands:x-twitter" class="size-5" />
         </a>
         <a
           href="https://github.com/Aaron-212"
-          aria-label={m.ariaGithubProfile()}
+          aria-label={t.ariaGithubProfile}
           class="flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded transition-colors hover:text-blue-600 focus-visible:text-blue-600 dark:hover:text-blue-400 dark:focus-visible:text-blue-400 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-blue-400"
         >
           <Icon name="fa7-brands:github" class="size-5" />
@@ -158,7 +197,7 @@ import { Icon } from "astro-icon/components";
         <details data-mobile-menu class="lg:hidden">
           <summary
             class="flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded transition-colors hover:text-blue-600 focus-visible:text-blue-600 dark:hover:text-blue-400 dark:focus-visible:text-blue-400 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-blue-600 dark:focus-visible:outline-blue-400 cursor-pointer list-none"
-            aria-label={m.ariaToggleNavigation()}
+            aria-label={t.ariaToggleNavigation}
           >
             <Icon name="fa7-solid:bars" class="size-5" />
           </summary>

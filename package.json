@@ -9,7 +9,7 @@
     "build": "astro build",
     "deploy:workers": "astro build && wrangler deploy",
     "preview": "astro preview",
-    "check": "node scripts/check-i18n-config.mjs && astro check",
+    "check": "astro check",
     "check:watch": "astro check --watch",
     "format": "oxfmt --ignore-path=.gitignore .",
     "lint": "oxlint --ignore-path=.gitignore ."
@@ -23,7 +23,6 @@
     "@astrojs/sitemap": "^3.7.4",
     "@iconify-json/fa7-brands": "^1.2.4",
     "@iconify-json/fa7-solid": "^1.2.5",
-    "@inlang/paraglide-js": "^2.26.0",
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.5",
     "astro": "^7.4.7",

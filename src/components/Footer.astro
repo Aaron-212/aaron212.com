@@ -1,11 +1,32 @@
 ---
-import { m } from "@/paraglide/messages.js";
-import { deLocalizeHref, getLocale, localizeHref } from "@/paraglide/runtime.js";
+import { getLocale, getRoutePath } from "@/lib/i18n";
+import type { Locale } from "../../i18n.config";
+import { getRelativeLocaleUrl } from "astro:i18n";
 import { Icon } from "astro-icon/components";
 
+const en = {
+  ariaSwitchLanguage: "Switch language",
+  footerSourceLicense: "Source code is licensed under the MIT License.",
+  footerLicensePrefix: "Website content is licensed under ",
+  footerLicenseName: "CC BY SA 4.0",
+  footerLicenseSuffix: ", unless otherwise noted.",
+};
+
+const messages = {
+  en,
+  "zh-cn": {
+    ariaSwitchLanguage: "切换语言",
+    footerSourceLicense: "源代码采用 MIT 许可证授权。",
+    footerLicensePrefix: "除非另有说明，网站内容采用",
+    footerLicenseName: "CC BY SA 4.0",
+    footerLicenseSuffix: "许可协议授权。",
+  },
+} satisfies Record<Locale, typeof en>;
+
 const year = new Date().getFullYear();
-const currentLocale = getLocale();
-const baseHref = deLocalizeHref(`${Astro.url.pathname}${Astro.url.search}`);
+const currentLocale = getLocale(Astro.currentLocale);
+const t = messages[currentLocale];
+const routePath = getRoutePath(Astro.url.pathname);
 const localeOptions = [
   { locale: "en", label: "English" },
   { locale: "zh-cn", label: "简体中文" },
@@ -17,20 +38,20 @@ const currentLocaleLabel = localeOptions.find(({ locale }) => locale === current
   <div class="flex w-full max-w-4xl flex-row items-center justify-between gap-4 px-6">
     <div class="flex flex-col items-start gap-1">
       <p>© 2021-{year} Aaron212</p>
-      <p class="text-sm">{m.footerSourceLicense()}</p>
+      <p class="text-sm">{t.footerSourceLicense}</p>
       <p class="text-sm">
-        {m.footerLicensePrefix()}
+        {t.footerLicensePrefix}
         <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="hover:underline">
-          {m.footerLicenseName()}
+          {t.footerLicenseName}
         </a>
-        {m.footerLicenseSuffix()}
+        {t.footerLicenseSuffix}
       </p>
     </div>
 
     <details class="group relative">
       <summary
         class="flex cursor-pointer list-none items-center gap-2 rounded-lg px-3 py-2 transition-colors hover:bg-slate-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:hover:bg-slate-800 dark:focus-visible:outline-blue-400"
-        aria-label={m.ariaSwitchLanguage()}
+        aria-label={t.ariaSwitchLanguage}
       >
         <span>{currentLocaleLabel}</span>
         <Icon name="fa7-solid:chevron-down" class="size-3 transition-transform group-open:rotate-180" />
@@ -40,7 +61,7 @@ const currentLocaleLabel = localeOptions.find(({ locale }) => locale === current
         {localeOptions.map(({ locale, label }) => (
           <li>
             <a
-              href={localizeHref(baseHref, { locale })}
+              href={`${getRelativeLocaleUrl(locale, routePath)}${Astro.url.search}`}
               lang={locale}
               aria-current={locale === currentLocale ? "page" : undefined}
               class="block rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-blue-600 dark:hover:bg-slate-800 dark:focus-visible:outline-blue-400"

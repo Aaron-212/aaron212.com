@@ -1,6 +1,6 @@
 ---
 name: sync-translations
-description: Maintain this portfolio's English and Simplified Chinese translations in src/pages/ and messages/. Use when comparing, auditing, or synchronizing localized pages or messages; exclude src/content/blog/, distinguish missing or entirely different text from equivalent wording, and respect intentional exceptions.
+description: Maintain this portfolio's English and Simplified Chinese translations in localized pages and component-scoped dictionaries. Use when comparing, auditing, or synchronizing localized pages or messages; exclude src/content/blog/, distinguish missing or entirely different text from equivalent wording, and respect intentional exceptions.
 ---
 
 # Maintain English and Simplified Chinese translations
@@ -9,15 +9,17 @@ Use English as the source of truth by default. When synchronizing, update Simpli
 where text is completely missing or entirely different in meaning. Follow an explicit user request for another source
 language or an audit without edits.
 
-Focus on `src/pages/` and `messages/`. Exclude all of `src/content/blog/` from inspection, comparison, edits, and
-discrepancy reports, including blog content rendered by page routes.
+Focus on `src/pages/` and the message dictionaries in `src/components/` and `src/layouts/`.
+Exclude all of `src/content/blog/` from inspection, comparison, edits, and discrepancy reports, including blog content
+rendered by page routes.
 
 ## Find corresponding content
 
 - Pair English pages in `src/pages/` with the same relative paths under `src/pages/zh-cn/`.
-- Pair `messages/en.json` and `messages/zh-cn.json` by message key. Inspect their callers when context is needed.
-- Inspect shared components and layouts only when needed to understand page text or message usage, including titles,
-  descriptions, and accessibility labels.
+- Pair the `en` and `"zh-cn"` entries in each component or layout by message key. The English dictionary is defined
+  as `const en`, and `messages` contains both locales. Include the shared dictionary in
+  `src/components/TableOfContents/messages.ts`.
+- Inspect message usage when needed to understand titles, descriptions, accessibility labels, or interpolation.
 - Compare corresponding headings and paragraphs by their role and meaning, not line numbers or literal wording.
   Preserve locale-specific links, routes, placeholders, markup, and formatting conventions.
 
@@ -43,8 +45,8 @@ For example, both of these mark intentional differences:
 <p>Localized example.</p>
 ```
 
-JSON message files do not support HTML comments. Check for an applicable marker at the source usage; do not insert
-comments into JSON or assume a marker on one usage exempts unrelated usages of the same message.
+For component-scoped messages, check for an applicable marker at the rendered usage. A marker on one usage does not
+exempt unrelated usages of the same message.
 
 ## Decide what to change
 

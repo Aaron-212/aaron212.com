@@ -3,7 +3,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import DesktopTableOfContents from "@/components/TableOfContents/Desktop.astro";
 import MobileTableOfContents from "@/components/TableOfContents/Mobile.astro";
 import type { MarkdownHeading } from "astro";
-import { getLocale } from "@/paraglide/runtime.js";
+import { getLocale } from "@/lib/i18n";
 
 interface Props {
   title: string;
@@ -14,6 +14,7 @@ interface Props {
 }
 
 const { title, date, lang, headings = [], heavyCode = false } = Astro.props;
+const locale = getLocale(Astro.currentLocale);
 const tableOfContents = headings.filter(({ depth }) => depth >= 2 && depth <= 3);
 ---
 
@@ -46,8 +47,8 @@ const tableOfContents = headings.filter(({ depth }) => depth >= 2 && depth <= 3)
       ]}
     >
       <h1>{title}</h1>
-      <p lang={getLocale()} class="text-slate-500 dark:text-slate-400">
-        <time datetime={date.toISOString()}>{date.toLocaleDateString(getLocale())}</time>
+      <p lang={locale} class="text-slate-500 dark:text-slate-400">
+        <time datetime={date.toISOString()}>{date.toLocaleDateString(locale)}</time>
       </p>
       <slot />
     </article>

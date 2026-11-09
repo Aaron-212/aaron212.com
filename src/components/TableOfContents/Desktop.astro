@@ -1,5 +1,6 @@
 ---
-import { m } from "@/paraglide/messages.js";
+import { getLocale } from "@/lib/i18n";
+import { messages } from "./messages";
 import type { MarkdownHeading } from "astro";
 
 interface Props {
@@ -8,14 +9,15 @@ interface Props {
 }
 
 const { headings, lang } = Astro.props;
+const t = messages[getLocale(Astro.currentLocale)];
 ---
 
 <nav
-  aria-label={m.tocAriaLabel()}
+  aria-label={t.tocAriaLabel}
   data-table-of-contents
   class="not-prose hidden rounded-lg border border-slate-200 p-5 dark:border-slate-800 lg:sticky lg:top-24 lg:block lg:max-h-[calc(100dvh-8rem)] lg:w-64 lg:flex-none lg:overflow-y-auto 2xl:w-74"
 >
-  <p class="mb-3 text-sm font-semibold uppercase tracking-wide">{m.tocOnThisPage()}</p>
+  <p class="mb-3 text-sm font-semibold uppercase tracking-wide">{t.tocOnThisPage}</p>
   <div class="relative">
     <span
       aria-hidden="true"

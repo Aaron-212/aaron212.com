@@ -1,7 +1,6 @@
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
-import { paraglideVitePlugin } from "@inlang/paraglide-js";
 import icon from "astro-icon";
 import { defineConfig } from "astro/config";
 import typlet from "@aaron212/astro-typlet";
@@ -32,15 +31,6 @@ export default defineConfig({
     typlet(),
   ],
   vite: {
-    plugins: [
-      paraglideVitePlugin({
-        project: "./project.inlang",
-        outdir: "./src/paraglide",
-        emitTsDeclarations: false,
-        strategy: ["url", "globalVariable", "baseLocale"],
-        trailingSlash: "always",
-      }),
-      tailwindcss(),
-    ],
+    plugins: [tailwindcss()],
   },
 });
