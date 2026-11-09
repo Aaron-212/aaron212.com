@@ -43,9 +43,11 @@ const currentLocaleLabel = localeOptions.find(({ locale }) => locale === current
               href={localizeHref(baseHref, { locale })}
               lang={locale}
               aria-current={locale === currentLocale ? "page" : undefined}
+              class="block rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-blue-600 dark:hover:bg-slate-800 dark:focus-visible:outline-blue-400"
               class:list={[
-                "block rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-blue-600 dark:hover:bg-slate-800 dark:focus-visible:outline-blue-400",
-                locale === currentLocale && "font-medium text-black dark:text-white"
+                {
+                  "font-medium text-black dark:text-white": locale === currentLocale
+                }
               ]}
             >
               {label}

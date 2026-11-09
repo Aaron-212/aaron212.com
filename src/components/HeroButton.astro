@@ -9,8 +9,8 @@ const { label, href, variant } = Astro.props;
 ---
 
 <a
+  class="rounded-full px-6 py-2 text-base font-medium transition-colors hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 md:text-lg dark:focus-visible:outline-blue-400"
   class:list={[
-    "rounded-full px-6 py-2 text-base font-medium transition-colors hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 md:text-lg dark:focus-visible:outline-blue-400",
     {
       "bg-blue-600 text-white hover:bg-blue-600/90 dark:bg-blue-600 dark:hover:bg-blue-600/90": variant === "primary",
       "border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-600 dark:hover:text-white":
