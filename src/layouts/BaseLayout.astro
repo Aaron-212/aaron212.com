@@ -19,7 +19,7 @@ const routePath = deLocalizeHref(Astro.url.pathname).replace(/^\/+/, "");
 const canonicalUrl = getAbsoluteLocaleUrl(lang, routePath);
 const alternateUrls = localeDefinitions.map(({ locale, hreflang }) => ({
   hreflang,
-  href: getAbsoluteLocaleUrl(locale, routePath)
+  href: getAbsoluteLocaleUrl(locale, routePath),
 }));
 const defaultLocaleUrl = getAbsoluteLocaleUrl(baseLocale, routePath);
 ---

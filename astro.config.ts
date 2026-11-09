@@ -18,18 +18,18 @@ export default defineConfig({
     defaultLocale: baseLocale,
     locales,
     routing: {
-      prefixDefaultLocale: false
-    }
+      prefixDefaultLocale: false,
+    },
   },
   integrations: [
     mdx(),
     sitemap({
-      filter: (page) => !new URL(page).pathname.endsWith("/404/")
+      filter: (page) => !new URL(page).pathname.endsWith("/404/"),
     }),
     icon(),
     highlights(),
     pele(),
-    typlet()
+    typlet(),
   ],
   vite: {
     plugins: [
@@ -38,9 +38,9 @@ export default defineConfig({
         outdir: "./src/paraglide",
         emitTsDeclarations: false,
         strategy: ["url", "globalVariable", "baseLocale"],
-        trailingSlash: "always"
+        trailingSlash: "always",
       }),
-      tailwindcss()
-    ]
+      tailwindcss(),
+    ],
   },
 });

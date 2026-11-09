@@ -6,15 +6,15 @@ const blog = defineCollection({
   loader: glob({
     pattern: "**/*.{md,mdx}",
     base: "./src/content/blog",
-    generateId: ({ entry }) => entry.replace(/\.(md|mdx)$/, "")
+    generateId: ({ entry }) => entry.replace(/\.(md|mdx)$/, ""),
   }),
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
     lang: z.enum(["en", "zh-CN"]),
     heavyCode: z.boolean().default(false),
-    tags: z.array(z.string()).optional()
-  })
+    tags: z.array(z.string()).optional(),
+  }),
 });
 
 export const collections = { blog };

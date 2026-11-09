@@ -19,7 +19,7 @@ const links: LinkGroup[] = [
   {
     label: m.navHome(),
     href: localizeHref("/"),
-    links: [{ label: m.navAbout(), href: localizeHref("/about"), showOnMobile: true }]
+    links: [{ label: m.navAbout(), href: localizeHref("/about"), showOnMobile: true }],
   },
   {
     label: m.navProjects(),
@@ -27,19 +27,19 @@ const links: LinkGroup[] = [
     links: [
       { label: "McSrvrS", href: localizeHref("/projects/mcsrvrs") },
       { label: "FnPilot", href: localizeHref("/projects/fnpilot") },
-      { label: "NBTPlus", href: localizeHref("/projects/nbtplus") }
-    ]
+      { label: "NBTPlus", href: localizeHref("/projects/nbtplus") },
+    ],
   },
   {
     label: m.navBlog(),
     href: localizeHref("/blog"),
-    links: [{ label: m.navHello(), href: "#" }]
+    links: [{ label: m.navHello(), href: "#" }],
   },
   {
     label: m.navDocs(),
     href: localizeHref("/docs"),
-    links: [{ label: m.navHello(), href: "#" }]
-  }
+    links: [{ label: m.navHello(), href: "#" }],
+  },
 ];
 
 const rightLinks = {
@@ -48,14 +48,14 @@ const rightLinks = {
     {
       label: m.navPartnerLinks(),
       href: localizeHref("/partner-links"),
-      showOnMobile: true
-    }
-  ] satisfies Sublink[]
+      showOnMobile: true,
+    },
+  ] satisfies Sublink[],
 };
 
 const mobileLinks = [
   ...links.flatMap(({ label, href, links }) => [{ label, href }, ...links.filter(({ showOnMobile }) => showOnMobile)]),
-  ...rightLinks.links.filter(({ showOnMobile }) => showOnMobile)
+  ...rightLinks.links.filter(({ showOnMobile }) => showOnMobile),
 ];
 
 import { Icon } from "astro-icon/components";
@@ -226,7 +226,7 @@ import { Icon } from "astro-icon/components";
           if (active?.button === button) closeMenu();
           else openMenu(button, panel);
         },
-        { signal }
+        { signal },
       );
 
       group.addEventListener(
@@ -234,7 +234,7 @@ import { Icon } from "astro-icon/components";
         (event) => {
           if (hover.matches && event.pointerType === "mouse") openMenu(button, panel);
         },
-        { signal }
+        { signal },
       );
     }
 
@@ -243,7 +243,7 @@ import { Icon } from "astro-icon/components";
       () => {
         if (active?.button !== document.activeElement && !active?.panel.contains(document.activeElement)) closeMenu();
       },
-      { signal }
+      { signal },
     );
 
     document.addEventListener(
@@ -251,7 +251,7 @@ import { Icon } from "astro-icon/components";
       (event) => {
         if (active && event.target !== active.button && !active.panel.contains(event.target as Node)) closeMenu();
       },
-      { signal }
+      { signal },
     );
 
     document.addEventListener(
@@ -259,7 +259,7 @@ import { Icon } from "astro-icon/components";
       (event) => {
         if (!navigation.contains(event.target as Node)) closeMenu();
       },
-      { signal }
+      { signal },
     );
 
     document.addEventListener(
@@ -270,7 +270,7 @@ import { Icon } from "astro-icon/components";
         closeMenu(restoreFocus);
         event.preventDefault();
       },
-      { signal }
+      { signal },
     );
 
     desktop.addEventListener("change", () => closeMenu(active?.panel.contains(document.activeElement)), { signal });

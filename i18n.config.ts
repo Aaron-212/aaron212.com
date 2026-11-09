@@ -1,12 +1,12 @@
 export const localeDefinitions = [
   {
     locale: "en",
-    hreflang: "en"
+    hreflang: "en",
   },
   {
     locale: "zh-cn",
-    hreflang: "zh-CN"
-  }
+    hreflang: "zh-CN",
+  },
 ] as const;
 
 export const baseLocale = "en" satisfies (typeof localeDefinitions)[number]["locale"];
