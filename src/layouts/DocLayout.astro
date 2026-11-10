@@ -1,0 +1,55 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import DesktopTableOfContents from "@/components/TableOfContents/Desktop.astro";
+import MobileTableOfContents from "@/components/TableOfContents/Mobile.astro";
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  title: string;
+  lang: string;
+  headings?: MarkdownHeading[];
+  heavyCode?: boolean;
+}
+
+const { title, lang, headings = [], heavyCode = false } = Astro.props;
+---
+
+<BaseLayout {title}>
+  <script is:inline slot="head">
+    const colorScheme = window.matchMedia("(prefers-color-scheme: dark)");
+    const setTheme = ({ matches }) => {
+      document.documentElement.dataset.theme = matches ? "dark" : "light";
+    };
+
+    setTheme(colorScheme);
+    colorScheme.addEventListener("change", setTheme);
+  </script>
+  <div
+    class="mx-auto my-8 flex max-w-6xl flex-col-reverse gap-8 px-6 lg:flex-row lg:items-start lg:justify-center"
+    class:list={[
+      {
+        "2xl:grid 2xl:max-w-none 2xl:grid-cols-[1fr_minmax(0,var(--container-3xl))_1fr] 2xl:px-0": headings.length > 0,
+      },
+    ]}
+  >
+    <article
+      lang={lang}
+      class="prose min-w-0 max-w-3xl flex-1 overflow-x-auto select-text dark:prose-invert lg:prose-lg 2xl:col-start-2"
+      class:list={[
+        {
+          "prose-inline-code": heavyCode,
+        },
+      ]}
+    >
+      <slot name="navigation" />
+      <h1>{title}</h1>
+      <slot />
+    </article>
+    {headings.length > 0 && (
+      <>
+        <MobileTableOfContents {headings} {lang} />
+        <DesktopTableOfContents {headings} {lang} />
+      </>
+    )}
+  </div>
+</BaseLayout>

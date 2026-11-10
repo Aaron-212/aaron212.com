@@ -1,0 +1,24 @@
+---
+import { getBreadcrumbTitle } from "@/lib/docs";
+
+interface Props {
+  currentPath: string;
+  title: string;
+}
+
+const { currentPath, title } = Astro.props;
+const segments = currentPath.split("/").filter(Boolean);
+---
+
+<nav aria-label="Breadcrumb" class="not-prose mb-8 text-sm">
+  <span class="flex flex-wrap gap-2">
+    {segments.map((segment, index) => (
+      <>
+        {index > 0 && <span aria-hidden="true">/</span>}
+        <span aria-current={index === segments.length - 1 ? "page" : undefined}>
+          {index === segments.length - 1 ? title : getBreadcrumbTitle(decodeURIComponent(segment))}
+        </span>
+      </>
+    ))}
+  </span>
+</nav>

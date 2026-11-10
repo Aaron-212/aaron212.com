@@ -17,4 +17,15 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+const cheatsheets = defineCollection({
+  loader: glob({
+    pattern: "**/*.md",
+    base: "./src/content/docs/cheatsheets",
+    generateId: ({ entry }) => entry.replace(/\.md$/, "").replace(/\/index$/, ""),
+  }),
+  schema: z.object({
+    title: z.string(),
+  }),
+});
+
+export const collections = { blog, cheatsheets };

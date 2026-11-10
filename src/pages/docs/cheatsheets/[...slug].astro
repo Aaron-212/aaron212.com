@@ -1,0 +1,29 @@
+---
+import DocLayout from "@/layouts/DocLayout.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { type CollectionEntry, getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const docs = await getCollection("cheatsheets");
+
+  return docs.map((doc) => ({
+    params: { slug: doc.id },
+    props: { doc },
+  }));
+}
+
+interface Props {
+  doc: CollectionEntry<"cheatsheets">;
+}
+
+const { doc } = Astro.props;
+const { Content, headings } = await render(doc);
+const { title } = doc.data;
+const sections = headings.filter(({ depth }) => depth > 1);
+const isEmpty = !doc.body?.trim();
+---
+
+<DocLayout {title} headings={sections} lang="en" heavyCode>
+  <Breadcrumbs slot="navigation" currentPath={Astro.url.pathname} {title} />
+  {isEmpty ? <p>This cheat sheet hasn't been written yet.</p> : <Content />}
+</DocLayout>

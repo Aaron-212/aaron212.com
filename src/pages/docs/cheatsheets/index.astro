@@ -1,0 +1,74 @@
+---
+import DocLayout from "@/layouts/DocLayout.astro";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import { getBreadcrumbTitle, getDocPath } from "@/lib/docs";
+import { type CollectionEntry, getCollection } from "astro:content";
+import type { MarkdownHeading } from "astro";
+
+type Section = {
+  id: string;
+  title: string;
+  depth: number;
+  docs: CollectionEntry<"cheatsheets">[];
+  children: Map<string, Section>;
+};
+
+const docs = (await getCollection("cheatsheets")).sort((a, b) => a.data.title.localeCompare(b.data.title));
+const title = "Cheat sheets";
+const groups = new Map<string, Section>();
+const headingTags = ["h2", "h3", "h4"] as const;
+
+for (const doc of docs) {
+  const folders = doc.id.split("/").slice(0, -1);
+  if (folders.length === 0) folders.push("general");
+
+  let children = groups;
+  let section: Section | undefined;
+
+  for (const [index, segment] of folders.slice(0, headingTags.length).entries()) {
+    const id = folders.slice(0, index + 1).join("/");
+    section = children.get(id) ?? {
+      id,
+      title: getBreadcrumbTitle(segment),
+      depth: index + 2,
+      docs: [],
+      children: new Map<string, Section>(),
+    };
+    children.set(id, section);
+    children = section.children;
+  }
+
+  section?.docs.push(doc);
+}
+
+function flattenSections(groups: Map<string, Section>): Section[] {
+  return [...groups.values()]
+    .sort((a, b) => a.title.localeCompare(b.title))
+    .flatMap((section) => [section, ...flattenSections(section.children)]);
+}
+
+const sections = flattenSections(groups);
+const headings: MarkdownHeading[] = sections.map(({ id, title, depth }) => ({ depth, slug: id, text: title }));
+---
+
+<DocLayout {title} {headings} lang="en">
+  <Breadcrumbs slot="navigation" currentPath={Astro.url.pathname} {title} />
+  {sections.map((section) => {
+    const Heading = headingTags[section.depth - 2];
+
+    return (
+      <section>
+        <Heading id={section.id}>{section.title}</Heading>
+        {section.docs.length > 0 && (
+          <ul>
+            {section.docs.map((doc) => (
+              <li>
+                <a href={getDocPath(doc.id)}>{doc.data.title}</a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    );
+  })}
+</DocLayout>
