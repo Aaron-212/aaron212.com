@@ -104,7 +104,7 @@ import { Icon } from "astro-icon/components";
   <nav
     data-navigation
     aria-label={t.ariaMainNavigation}
-    class="pointer-events-auto relative flex h-12 w-full flex-col items-center overflow-clip bg-surface/80 backdrop-blur-xl transition-all duration-250 ease-in-out motion-reduce:transition-none lg:delay-250"
+    class="pointer-events-auto relative flex h-12 w-full flex-col items-center overflow-clip bg-surface/80 backdrop-blur-xl transition-all duration-250 ease-in-out motion-reduce:transition-none"
   >
     <div class="mx-auto flex h-12 w-full max-w-4xl shrink-0 items-center gap-4 px-6">
       <span class="select-none text-lg font-bold text-foreground">Aaron212</span>
@@ -112,7 +112,10 @@ import { Icon } from "astro-icon/components";
       <div data-desktop-sections class="hidden items-center lg:flex ps-2">
         {links.map((link, index) => (
           <div data-section-group class="group flex h-12 items-center ps-2">
-            <a class="text-foreground transition-colors hover:text-accent focus-visible:text-accent" href={link.href}>
+            <a
+              class="text-foreground transition-colors group-hover:text-accent group-has-focus-visible:text-accent"
+              href={link.href}
+            >
               {link.label}
             </a>
             <button
@@ -121,9 +124,9 @@ import { Icon } from "astro-icon/components";
               aria-label={t.ariaSectionMenu(link.label)}
               aria-expanded="false"
               aria-controls={`site-submenu-${index}`}
-              class="flex min-h-11 min-w-6 shrink-0 cursor-pointer items-center justify-center rounded opacity-0 transition group-hover:opacity-100 group-focus-within:opacity-100 aria-expanded:opacity-100 hover:text-accent focus-visible:text-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
+              class="flex min-h-11 min-w-6 shrink-0 cursor-pointer items-center justify-center rounded opacity-0 transition group-hover:opacity-100 group-focus-within:opacity-100 aria-expanded:opacity-100 group-hover:text-accent group-has-focus-visible:text-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
             >
-              <Icon name="fa7-solid:chevron-down" class="size-2" />
+              <Icon name="fa7-solid:caret-down" class="size-4" />
             </button>
             <div
               id={`site-submenu-${index}`}
@@ -229,8 +232,15 @@ import { Icon } from "astro-icon/components";
     const hover = window.matchMedia("(hover: hover) and (pointer: fine)");
     const groups = Array.from(navigation.querySelectorAll<HTMLElement>("[data-section-group]"));
     let active: { button: HTMLButtonElement; panel: HTMLElement } | undefined;
+    let hoverTimer: ReturnType<typeof setTimeout> | undefined;
+
+    function cancelHover() {
+      clearTimeout(hoverTimer);
+      hoverTimer = undefined;
+    }
 
     function closeMenu(restoreFocus = false) {
+      cancelHover();
       if (!active) return;
       const { button, panel } = active;
       active = undefined;
@@ -241,6 +251,7 @@ import { Icon } from "astro-icon/components";
     }
 
     function openMenu(button: HTMLButtonElement, panel: HTMLElement) {
+      cancelHover();
       if (!desktop.matches || active?.button === button) return;
       // A pointer must not hide a different submenu while keyboard focus is inside it.
       if (active?.panel.contains(document.activeElement)) return;
@@ -268,15 +279,20 @@ import { Icon } from "astro-icon/components";
       group.addEventListener(
         "pointerenter",
         (event) => {
-          if (hover.matches && event.pointerType === "mouse") openMenu(button, panel);
+          cancelHover();
+          if (!desktop.matches || !hover.matches || event.pointerType !== "mouse") return;
+          hoverTimer = setTimeout(() => openMenu(button, panel), 250);
         },
         { signal },
       );
+
+      group.addEventListener("pointerleave", cancelHover, { signal });
     }
 
     navigation.addEventListener(
       "pointerleave",
       () => {
+        cancelHover();
         if (active?.button !== document.activeElement && !active?.panel.contains(document.activeElement)) closeMenu();
       },
       { signal },
@@ -285,6 +301,7 @@ import { Icon } from "astro-icon/components";
     document.addEventListener(
       "focusin",
       (event) => {
+        cancelHover();
         if (active && event.target !== active.button && !active.panel.contains(event.target as Node)) closeMenu();
       },
       { signal },
@@ -301,7 +318,9 @@ import { Icon } from "astro-icon/components";
     document.addEventListener(
       "keydown",
       (event) => {
-        if (event.key !== "Escape" || !active) return;
+        if (event.key !== "Escape") return;
+        cancelHover();
+        if (!active) return;
         const restoreFocus = active.button === document.activeElement || active.panel.contains(document.activeElement);
         closeMenu(restoreFocus);
         event.preventDefault();
@@ -310,6 +329,7 @@ import { Icon } from "astro-icon/components";
     );
 
     desktop.addEventListener("change", () => closeMenu(active?.panel.contains(document.activeElement)), { signal });
+    hover.addEventListener("change", cancelHover, { signal });
 
     cleanupNavigation = () => {
       closeMenu();
