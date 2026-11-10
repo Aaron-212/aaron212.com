@@ -15,27 +15,31 @@ const t = messages[getLocale(Astro.currentLocale)];
 <nav
   aria-label={t.tocAriaLabel}
   data-table-of-contents
-  class="not-prose hidden rounded-lg border border-border p-5 lg:sticky lg:top-24 lg:block lg:max-h-[calc(100dvh-8rem)] lg:w-64 lg:flex-none lg:overflow-y-auto 2xl:w-74"
+  class="not-prose hidden bg-canvas pe-6 py-8 lg:sticky lg:top-12 lg:block lg:h-[calc(100dvh-3rem)] lg:w-64 lg:flex-none lg:overflow-y-auto lg:overscroll-y-contain 2xl:col-start-3 2xl:w-74 2xl:justify-self-end"
 >
-  <p class="mb-3 text-sm font-semibold uppercase tracking-wide">{t.tocOnThisPage}</p>
+  <p class="mb-3 ps-6 text-sm font-semibold uppercase tracking-wide">{t.tocOnThisPage}</p>
   <div class="relative">
     <span
       aria-hidden="true"
       class="pointer-events-none absolute inset-s-0 top-0 h-0 border-s-2 border-s-accent opacity-0 transition-[height,transform,opacity] duration-300 ease-out motion-reduce:transition-none"
       data-toc-indicator
     ></span>
-    <ol lang={lang} class="border-s-2 border-s-foreground/20 text-sm">
+    <ol lang={lang} class="text-sm">
       {headings.map(({ depth, slug, text }) => (
         <li
-          class={`group py-1 text-foreground/60 transition-colors aria-[current=location]:text-accent hover:text-foreground ${
-            depth === 3 ? "ps-8" : "ps-4"
-          }`}
+          class:list={[
+            "group py-1 text-foreground/60 transition-colors aria-[current=location]:text-accent hover:text-foreground line-clamp-1",
+            {
+              "ps-6": depth <= 2,
+              "ps-10": depth === 3,
+              "ps-14": depth === 4,
+              "ps-18": depth === 5,
+              "ps-22": depth === 6,
+            },
+          ]}
           data-toc-item
         >
-          <a
-            class="block text-inherit transition-all group-aria-[current=location]:font-semibold line-clamp-2"
-            href={`#${slug}`}
-          >
+          <a class="block text-inherit transition-all group-aria-[current=location]:font-semibold" href={`#${slug}`}>
             {text}
           </a>
         </li>
@@ -43,6 +47,16 @@ const t = messages[getLocale(Astro.currentLocale)];
     </ol>
   </div>
 </nav>
+
+<style>
+  nav {
+    background-image: linear-gradient(to right, var(--color-border) 2px, transparent 2px);
+  }
+
+  nav:dir(rtl) {
+    background-image: linear-gradient(to left, var(--color-border) 2px, transparent 2px);
+  }
+</style>
 
 <script>
   let cleanupCurrentPage: (() => void) | undefined;

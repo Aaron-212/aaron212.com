@@ -15,7 +15,6 @@ interface Props {
 
 const { title, date, lang, headings = [], heavyCode = false } = Astro.props;
 const locale = getLocale(Astro.currentLocale);
-const tableOfContents = headings.filter(({ depth }) => depth >= 2 && depth <= 3);
 ---
 
 <BaseLayout title={`${title}`}>
@@ -28,18 +27,17 @@ const tableOfContents = headings.filter(({ depth }) => depth >= 2 && depth <= 3)
     setTheme(colorScheme);
     colorScheme.addEventListener("change", setTheme);
   </script>
-  <!-- 92rem fits the article, two balanced sidebar spaces, gaps, and outer padding. -->
   <div
     class="mx-auto my-8 flex max-w-6xl flex-col-reverse gap-8 px-6 lg:flex-row lg:items-start lg:justify-center"
     class:list={[
       {
-        "2xl:max-w-[92rem] 2xl:before:block 2xl:before:w-74 2xl:before:flex-none": tableOfContents.length > 0,
+        "2xl:grid 2xl:max-w-none 2xl:grid-cols-[1fr_minmax(0,var(--container-3xl))_1fr] 2xl:px-0": headings.length > 0,
       },
     ]}
   >
     <article
       lang={lang}
-      class="prose min-w-0 max-w-3xl flex-1 select-text dark:prose-invert lg:prose-lg"
+      class="prose min-w-0 max-w-3xl flex-1 select-text dark:prose-invert lg:prose-lg 2xl:col-start-2"
       class:list={[
         {
           "prose-inline-code": heavyCode,
@@ -52,10 +50,10 @@ const tableOfContents = headings.filter(({ depth }) => depth >= 2 && depth <= 3)
       </p>
       <slot />
     </article>
-    {tableOfContents.length > 0 && (
+    {headings.length > 0 && (
       <>
-        <MobileTableOfContents headings={tableOfContents} {lang} />
-        <DesktopTableOfContents headings={tableOfContents} {lang} />
+        <MobileTableOfContents {headings} {lang} />
+        <DesktopTableOfContents {headings} {lang} />
       </>
     )}
   </div>

@@ -17,7 +17,18 @@ const t = messages[getLocale(Astro.currentLocale)];
   <nav aria-label={t.tocAriaLabel} class="mt-3">
     <ol lang={lang} class="space-y-2 border-l-2 border-foreground/20 text-sm">
       {headings.map(({ depth, slug, text }) => (
-        <li class={`text-foreground/60 hover:text-foreground transition-colors ${depth === 3 ? "ps-8" : "ps-4"}`}>
+        <li
+          class:list={[
+            "text-foreground/60 hover:text-foreground transition-colors line-clamp-1",
+            {
+              "ps-4": depth <= 2,
+              "ps-8": depth === 3,
+              "ps-12": depth === 4,
+              "ps-16": depth === 5,
+              "ps-20": depth === 6,
+            },
+          ]}
+        >
           <a class="block text-inherit" href={`#${slug}`}>
             {text}
           </a>
