@@ -7,10 +7,10 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "deploy:workers": "astro build && wrangler deploy",
     "preview": "astro preview",
+    "deploy": "astro build && wrangler deploy",
+    "preview:workers": "astro build && wrangler preview",
     "check": "astro check",
-    "check:watch": "astro check --watch",
     "format": "oxfmt --ignore-path=.gitignore .",
     "lint": "oxlint --ignore-path=.gitignore ."
   },
