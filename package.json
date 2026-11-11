@@ -20,6 +20,7 @@
     "@aaron212/astro-typlet": "^0.3.3",
     "@astrojs/check": "^0.9.12",
     "@astrojs/mdx": "^8.1.3",
+    "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@iconify-json/fa7-brands": "^1.2.4",
     "@iconify-json/fa7-solid": "^1.2.5",
