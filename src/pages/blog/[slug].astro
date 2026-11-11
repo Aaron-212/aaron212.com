@@ -21,6 +21,7 @@ const { Content, headings } = await render(post);
 
 <PostLayout
   title={post.data.title}
+  description={post.data.description}
   date={post.data.date}
   lang={post.data.lang}
   headings={headings}
