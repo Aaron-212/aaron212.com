@@ -4,6 +4,11 @@ import type { Locale } from "../../i18n.config";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { Icon } from "astro-icon/components";
 
+interface Props {
+  translationFallback?: string;
+}
+const { translationFallback } = Astro.props;
+
 const en = {
   ariaSwitchLanguage: "Switch language",
   footerSourceLicense: "Source code is licensed under the MIT License.",
@@ -61,7 +66,7 @@ const currentLocaleLabel = localeOptions.find(({ locale }) => locale === current
         {localeOptions.map(({ locale, label }) => (
           <li>
             <a
-              href={`${getRelativeLocaleUrl(locale, routePath)}${Astro.url.search}`}
+              href={`${getRelativeLocaleUrl(locale, locale === currentLocale ? routePath : (translationFallback ?? routePath))}${locale !== currentLocale && translationFallback ? "" : Astro.url.search}`}
               lang={locale}
               aria-current={locale === currentLocale ? "page" : undefined}
               class="block rounded-lg px-3 py-2 transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-accent dark:hover:bg-slate-800"

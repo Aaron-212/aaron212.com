@@ -10,6 +10,8 @@ import "@/app.css";
 interface Props {
   title?: string;
   description?: string;
+  /** Locale-neutral fallback for pages without translations. Omits hreflang alternates. */
+  translationFallback?: string;
 }
 
 const en = {
@@ -25,7 +27,7 @@ const messages = {
 
 const lang = getLocale(Astro.currentLocale);
 const t = messages[lang];
-const { title, description = t.metaDescription } = Astro.props;
+const { title, description = t.metaDescription, translationFallback } = Astro.props;
 const routePath = getRoutePath(Astro.url.pathname);
 const canonicalUrl = getAbsoluteLocaleUrl(lang, routePath);
 const alternateUrls = localeDefinitions.map(({ locale, hreflang }) => ({
@@ -46,10 +48,14 @@ const defaultLocaleUrl = getAbsoluteLocaleUrl(baseLocale, routePath);
     <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
-    {alternateUrls.map(({ hreflang, href }) => (
-      <link rel="alternate" hreflang={hreflang} href={href} />
-    ))}
-    <link rel="alternate" hreflang="x-default" href={defaultLocaleUrl} />
+    {!translationFallback && (
+      <>
+        {alternateUrls.map(({ hreflang, href }) => (
+          <link rel="alternate" hreflang={hreflang} href={href} />
+        ))}
+        <link rel="alternate" hreflang="x-default" href={defaultLocaleUrl} />
+      </>
+    )}
     <title>{title ? `${title} | Aaron212` : "Aaron212"}</title>
     <slot name="head" />
     <ClientRouter />
@@ -59,6 +65,6 @@ const defaultLocaleUrl = getAbsoluteLocaleUrl(baseLocale, routePath);
     <main id="content" tabindex="-1" class="mt-4 flex-1 scroll-mt-16 select-none">
       <slot />
     </main>
-    <Footer />
+    <Footer {translationFallback} />
   </body>
 </html>
