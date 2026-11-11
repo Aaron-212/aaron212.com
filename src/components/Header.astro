@@ -2,6 +2,7 @@
 type Link = {
   label: string;
   href: string;
+  lang?: string;
 };
 
 type Sublink = Link & {
@@ -12,6 +13,8 @@ type LinkGroup = Link & {
   links: Sublink[];
 };
 
+import { getDocPath } from "@/lib/docs";
+import { getCollection } from "astro:content";
 import { getLocale } from "@/lib/i18n";
 import type { Locale } from "../../i18n.config";
 import { getRelativeLocaleUrl } from "astro:i18n";
@@ -22,7 +25,7 @@ const en = {
   navProjects: "Projects",
   navBlog: "Blog",
   navDocs: "Docs",
-  navHello: "Hello",
+  navCheatsheets: "Cheat sheets",
   navOtherLinks: "Other Links",
   navPartnerLinks: "Partner Links",
   ariaSectionMenu: (section: string) => `${section} menu`,
@@ -40,7 +43,7 @@ const messages = {
     navProjects: "项目",
     navBlog: "博客",
     navDocs: "文档",
-    navHello: "你好",
+    navCheatsheets: "速查表",
     navOtherLinks: "其他链接",
     navPartnerLinks: "友情链接",
     ariaSectionMenu: (section: string) => `${section}菜单`,
@@ -53,6 +56,10 @@ const messages = {
 
 const locale = getLocale(Astro.currentLocale);
 const t = messages[locale];
+
+const latestPosts = (await getCollection("blog"))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
 
 const links: LinkGroup[] = [
   {
@@ -72,12 +79,16 @@ const links: LinkGroup[] = [
   {
     label: t.navBlog,
     href: getRelativeLocaleUrl(locale, "/blog"),
-    links: [{ label: t.navHello, href: "#" }],
+    links: latestPosts.map((post) => ({
+      label: post.data.title,
+      href: getRelativeLocaleUrl(locale, `/blog/${post.id}`),
+      lang: post.data.lang,
+    })),
   },
   {
     label: t.navDocs,
     href: getRelativeLocaleUrl(locale, "/docs"),
-    links: [{ label: t.navHello, href: "#" }],
+    links: [{ label: t.navCheatsheets, href: getDocPath() }],
   },
 ];
 
@@ -139,6 +150,7 @@ import { Icon } from "astro-icon/components";
                 <a
                   class="w-fit text-2xl font-bold text-foreground transition-colors duration-200 ease-in-out hover:text-accent focus-visible:text-accent"
                   href={sublink.href}
+                  lang={sublink.lang}
                 >
                   {sublink.label}
                 </a>
