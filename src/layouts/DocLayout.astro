@@ -15,15 +15,6 @@ const { title, lang, headings = [], heavyCode = false } = Astro.props;
 ---
 
 <BaseLayout {title} translationFallback="/docs">
-  <script is:inline slot="head">
-    const colorScheme = window.matchMedia("(prefers-color-scheme: dark)");
-    const setTheme = ({ matches }) => {
-      document.documentElement.dataset.theme = matches ? "dark" : "light";
-    };
-
-    setTheme(colorScheme);
-    colorScheme.addEventListener("change", setTheme);
-  </script>
   <div
     class="mx-auto my-8 flex max-w-6xl flex-col-reverse gap-8 px-6 lg:flex-row lg:items-start lg:justify-center"
     class:list={[
