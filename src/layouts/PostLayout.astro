@@ -7,26 +7,18 @@ import { getLocale } from "@/lib/i18n";
 
 interface Props {
   title: string;
+  description?: string;
   date: Date;
   lang: string;
   headings?: MarkdownHeading[];
   heavyCode?: boolean;
 }
 
-const { title, date, lang, headings = [], heavyCode = false } = Astro.props;
+const { description, title, date, lang, headings = [], heavyCode = false } = Astro.props;
 const locale = getLocale(Astro.currentLocale);
 ---
 
-<BaseLayout title={`${title}`}>
-  <script is:inline slot="head">
-    const colorScheme = window.matchMedia("(prefers-color-scheme: dark)");
-    const setTheme = ({ matches }) => {
-      document.documentElement.dataset.theme = matches ? "dark" : "light";
-    };
-
-    setTheme(colorScheme);
-    colorScheme.addEventListener("change", setTheme);
-  </script>
+<BaseLayout title={title} description={description} type="article" publishedTime={date}>
   <div
     class="mx-auto my-8 flex max-w-6xl flex-col-reverse gap-8 px-6 lg:flex-row lg:items-start lg:justify-center"
     class:list={[
