@@ -1,4 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#111827"/>
-  <text x="32" y="43" fill="#fff" font-family="Arial, sans-serif" font-size="31" font-weight="700" text-anchor="middle">A</text>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>favicon</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="color(display-p3 0.110 0.110 0.118)" offset="0%"></stop>
+            <stop stop-color="color(display-p3 0.252 0.252 0.913)" offset="100%"></stop>
+        </linearGradient>
+        <path d="M0,0 L64,0 L64,64 L0,64 Z" id="path-2"></path>
+    </defs>
+    <g id="favicon" stroke="none" fill="none" xlink:href="#path-2" fill-rule="evenodd">
+        <use fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
+        <g id="A" stroke-width="1" transform="translate(21, 13)" fill="color(display-p3 1.000 1.000 1.000)">
+            <path d="M0.256347656,31 L8.70947266,7.71875 L12.8981934,7.71875 L21.2883301,31 L17.512207,31 L13.0322266,17.8686523 C12.6661784,16.7560221 12.2709147,15.5386556 11.8464355,14.2165527 C11.4219564,12.8944499 10.9127604,11.253418 10.3188477,9.29345703 L11.3000488,9.29345703 C10.7022298,11.253418 10.1901449,12.8944499 9.76379395,14.2165527 C9.33744303,15.5386556 8.93513997,16.7560221 8.55688477,17.8686523 L3.94458008,31 L0.256347656,31 Z M4.9440918,24.9553223 L4.9440918,22.0053711 L16.6035156,22.0053711 L16.6035156,24.9553223 L4.9440918,24.9553223 Z" id="形状" fill-rule="nonzero"></path>
+        </g>
+    </g>
 </svg>
