@@ -12,7 +12,7 @@
     "preview:workers": "astro build && wrangler preview",
     "check": "astro check",
     "format": "oxfmt --ignore-path=.gitignore .",
-    "lint": "oxlint --ignore-path=.gitignore ."
+    "lint": "oxfmt --check --ignore-path=.gitignore . && oxlint --ignore-path=.gitignore ."
   },
   "devDependencies": {
     "@aaron212/astro-highlights": "^0.0.5",

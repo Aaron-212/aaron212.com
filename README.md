@@ -5,7 +5,14 @@ Static portfolio and blog built with Astro and Tailwind CSS.
 ## Development
 
 ```sh
-pnpm run dev
+mise exec -- pnpm install
+mise exec -- pnpm run dev
 ```
 
-Run `pnpm run check` for type checks and `pnpm run build` for a production build.
+Run the checks and create a production build:
+
+```sh
+mise exec -- pnpm run lint
+mise exec -- pnpm run check
+mise exec -- pnpm run build
+```
