@@ -12,8 +12,8 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: jdx/mise-action@v3
+      - uses: actions/checkout@v7.0.1
+      - uses: jdx/mise-action@v5.2.7
       - run: mise exec -- pnpm install --frozen-lockfile
       - run: mise exec -- pnpm run lint
       - run: mise exec -- pnpm run check
