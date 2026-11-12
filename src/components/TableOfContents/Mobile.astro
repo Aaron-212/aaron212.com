@@ -12,7 +12,7 @@ const { headings, lang } = Astro.props;
 const t = messages[getLocale(Astro.currentLocale)];
 ---
 
-<details class="not-prose rounded-lg border border-border p-5 lg:hidden">
+<details class="details-expand not-prose rounded-lg border border-border p-5 lg:hidden">
   <summary class="cursor-pointer text-sm font-semibold uppercase tracking-wide">{t.tocOnThisPage}</summary>
   <nav aria-label={t.tocAriaLabel} class="mt-3">
     <ol lang={lang} class="space-y-2 border-l-2 border-foreground/20 text-sm">

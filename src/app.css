@@ -67,3 +67,49 @@
 .prose table {
   @apply block max-w-full overflow-x-auto;
 }
+
+:is(.prose details, details.details-expand) > summary {
+  @apply flex cursor-pointer list-none items-center gap-2;
+}
+
+:is(.prose details, details.details-expand) > summary::-webkit-details-marker {
+  display: none;
+}
+
+:is(.prose details, details.details-expand) > summary::before {
+  content: "";
+  @apply size-4 shrink-0 bg-current;
+  mask: url("./assets/icons/chevron-right.svg") center / contain no-repeat;
+}
+
+:is(.prose details, details.details-expand)[open] > summary::before {
+  rotate: 90deg;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :is(.prose details, details.details-expand) > summary::before {
+    transition: rotate 200ms ease;
+  }
+
+  @supports selector(details::details-content) and (transition-behavior: allow-discrete) {
+    details::details-content {
+      transition: content-visibility 300ms allow-discrete;
+    }
+
+    @supports (interpolate-size: allow-keywords) {
+      :is(.prose details, details.details-expand)::details-content {
+        interpolate-size: allow-keywords;
+        block-size: 0;
+        overflow: clip;
+        contain: layout;
+        transition:
+          block-size 200ms ease,
+          content-visibility 200ms allow-discrete;
+      }
+
+      :is(.prose details, details.details-expand)[open]::details-content {
+        block-size: auto;
+      }
+    }
+  }
+}
