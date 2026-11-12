@@ -45,7 +45,7 @@ interface Props {
   type?: string;
   title: string;
   monospaceTitle?: boolean;
-  description: string;
+  description?: string;
   actions: Action[];
   icon?: Icon;
   tag?: Tag;
@@ -75,7 +75,7 @@ const { type, title, monospaceTitle, description, actions, icon, tag } = Astro.p
         {type && <p class="text-sm text-secondary">{type}</p>}
       </div>
 
-      <p class="text-md text-muted md:text-lg">{description}</p>
+      {description && <p class="text-md text-muted md:text-lg">{description}</p>}
 
       <div class="flex flex-col flex-wrap items-start">
         {actions.map((action) => (

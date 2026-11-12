@@ -22,7 +22,7 @@
 }
 
 @utility prose-content {
-  @apply prose-sm prose-slate sm:prose-base dark:prose-invert lg:prose-lg;
+  @apply prose-sm prose-slate sm:prose-base dark:prose-invert lg:prose-lg prose-h1:font-semibold prose-h1:tracking-tight;
 }
 
 .prose pre:has(> code) {
