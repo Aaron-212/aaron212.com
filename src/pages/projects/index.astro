@@ -9,6 +9,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 
     <div class="flex flex-col md:gap-4">
       <ShowcaseItem
+        type="iOS/iPadOS/macOS App"
         title="McSrvrS"
         description="A native Minecraft: Java Edition server monitor for iPhone, iPad, and Mac."
         icon={{
@@ -24,6 +25,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       />
 
       <ShowcaseItem
+        type="macOS App"
         title="FnPilot"
         description="Change fn key settings based on the frontmost window."
         icon={{
@@ -39,6 +41,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       />
 
       <ShowcaseItem
+        type="macOS App"
         title="NBTPlus"
         description="A simple NBT editor for macOS."
         icon={{
@@ -54,7 +57,34 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       />
 
       <ShowcaseItem
-        title="astro-pele"
+        type="CLI Prompt Engine"
+        title="chips"
+        description="An experimental prompt engine written in Zig for Nushell and Zsh."
+        actions={[{ label: "GitHub", href: "https://github.com/Aaron-212/chips" }]}
+      />
+
+      <ShowcaseItem
+        type="Web app"
+        title="CF Senders"
+        description="A SvelteKit email-sending interface on Cloudflare Workers, protected by Cloudflare Access."
+        actions={[{ label: "GitHub", href: "https://github.com/Aaron-212/cf-senders" }]}
+      />
+
+      <ShowcaseItem
+        type="npm package"
+        title="@aaron212/astro-highlights"
+        monospaceTitle
+        description="Highlight code with @pierre/highlights in Astro and Sätteri, with server-side rendering and system light and dark themes."
+        actions={[
+          { label: "NPM", href: "https://www.npmjs.com/package/@aaron212/astro-highlights" },
+          { label: "GitHub", href: "https://github.com/Aaron-212/astro-highlights" },
+        ]}
+      />
+
+      <ShowcaseItem
+        type="npm package"
+        title="@aaron212/astro-pele"
+        monospaceTitle
         description="Render Mermaid diagrams with Pele in Astro and Sätteri."
         actions={[
           { label: "NPM", href: "https://www.npmjs.com/package/@aaron212/astro-pele" },
@@ -63,11 +93,22 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       />
 
       <ShowcaseItem
-        title="astro-typlet"
+        type="npm package"
+        title="@aaron212/astro-typlet"
+        monospaceTitle
         description="Render Typst formulas with Typlet in Astro and Sätteri."
         actions={[
           { label: "NPM", href: "https://www.npmjs.com/package/@aaron212/astro-typlet" },
           { label: "GitHub", href: "https://github.com/Aaron-212/astro-typlet" },
+        ]}
+      />
+      <ShowcaseItem
+        type="Zed Extension"
+        title="Carbon for Zed"
+        description="Carbon syntax highlighting, navigation, and editing support for Zed, backed by a Tree-sitter grammar synced from the Carbon Language project."
+        actions={[
+          { label: "GitHub (Plugin)", href: "https://github.com/Aaron-212/zed-carbon" },
+          { label: "GitHub (Tree-sitter Grammar)", href: "https://github.com/Aaron-212/tree-sitter-carbon" },
         ]}
       />
     </div>

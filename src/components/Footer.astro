@@ -41,10 +41,10 @@ const currentLocaleLabel = localeOptions.find(({ locale }) => locale === current
 
 <footer class="mt-16 flex min-h-32 flex-col items-center justify-center bg-surface-muted text-center text-secondary select-none">
   <div class="flex w-full max-w-4xl flex-row items-center justify-between gap-4 px-6">
-    <div class="flex flex-col items-start gap-1">
+    <div class="flex flex-col items-start gap-1 **:text-start">
       <p>© 2021-{year} Aaron212</p>
-      <p class="text-sm">{t.footerSourceLicense}</p>
-      <p class="text-sm">
+      <p class="text-xs sm:text-sm">{t.footerSourceLicense}</p>
+      <p class="text-xs sm:text-sm">
         {t.footerLicensePrefix}
         <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="hover:underline">
           {t.footerLicenseName}

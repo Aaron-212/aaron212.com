@@ -9,6 +9,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 
     <div class="flex flex-col md:gap-4">
       <ShowcaseItem
+        type="iOS/iPadOS/macOS应用"
         title="McSrvrS"
         description="适用于iPhone、iPad和Mac的原生Minecraft Java版服务器监控工具。"
         icon={{
@@ -24,6 +25,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       />
 
       <ShowcaseItem
+        type="macOS应用"
         title="FnPilot"
         description="根据当前窗口自动切换fn键设置。"
         icon={{
@@ -39,6 +41,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       />
 
       <ShowcaseItem
+        type="macOS应用"
         title="NBTPlus"
         description="适用于macOS的简洁NBT编辑器。"
         icon={{
@@ -54,7 +57,34 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       />
 
       <ShowcaseItem
-        title="astro-pele"
+        type="命令行提示符引擎"
+        title="chips"
+        description="使用Zig编写的实验性提示符引擎，支持Nushell和Zsh。"
+        actions={[{ label: "GitHub", href: "https://github.com/Aaron-212/chips" }]}
+      />
+
+      <ShowcaseItem
+        type="Web应用"
+        title="CF Senders"
+        description="运行于Cloudflare Workers的SvelteKit邮件发送界面，使用Cloudflare Access控制访问。"
+        actions={[{ label: "GitHub", href: "https://github.com/Aaron-212/cf-senders" }]}
+      />
+
+      <ShowcaseItem
+        type="npm包"
+        title="@aaron212/astro-highlights"
+        monospaceTitle
+        description="在Astro和Sätteri中使用@pierre/highlights高亮代码，支持服务端渲染和跟随系统的浅色与深色主题。"
+        actions={[
+          { label: "NPM", href: "https://www.npmjs.com/package/@aaron212/astro-highlights" },
+          { label: "GitHub", href: "https://github.com/Aaron-212/astro-highlights" },
+        ]}
+      />
+
+      <ShowcaseItem
+        type="npm包"
+        title="@aaron212/astro-pele"
+        monospaceTitle
         description="在Astro和Sätteri中使用Pele渲染Mermaid图表。"
         actions={[
           { label: "NPM", href: "https://www.npmjs.com/package/@aaron212/astro-pele" },
@@ -63,11 +93,22 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       />
 
       <ShowcaseItem
-        title="astro-typlet"
+        type="npm包"
+        title="@aaron212/astro-typlet"
+        monospaceTitle
         description="在Astro和Sätteri中使用Typlet渲染Typst公式。"
         actions={[
           { label: "NPM", href: "https://www.npmjs.com/package/@aaron212/astro-typlet" },
           { label: "GitHub", href: "https://github.com/Aaron-212/astro-typlet" },
+        ]}
+      />
+      <ShowcaseItem
+        type="Zed扩展"
+        title="Carbon for Zed"
+        description="为Zed提供Carbon语法高亮、导航和编辑支持，使用从Carbon语言项目同步的Tree-sitter语法。"
+        actions={[
+          { label: "GitHub（插件）", href: "https://github.com/Aaron-212/zed-carbon" },
+          { label: "GitHub（Tree-sitter语法）", href: "https://github.com/Aaron-212/tree-sitter-carbon" },
         ]}
       />
     </div>

@@ -21,13 +21,17 @@
   text-autospace: normal;
 }
 
+@utility prose-content {
+  @apply prose-sm prose-slate sm:prose-base dark:prose-invert lg:prose-lg;
+}
+
 .prose pre:has(> code) {
   @apply leading-snug;
 }
 
 @utility prose-inline-code {
   & code:not(pre code) {
-    @apply rounded bg-surface-muted px-1 py-0.5 font-medium;
+    @apply rounded bg-surface px-1 py-0.5 font-medium;
 
     &::before,
     &::after {
@@ -58,4 +62,8 @@
 
 .prose a {
   @apply text-accent no-underline hover:underline;
+}
+
+.prose table {
+  @apply block max-w-full overflow-x-auto;
 }

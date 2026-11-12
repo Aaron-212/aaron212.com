@@ -17,16 +17,28 @@ Set `display: flex` (`flex`) or `display: inline-flex` (`inline-flex`) on a pare
 - **Default item behavior:** Single row (`nowrap`), can shrink (`flex-shrink: 1`), does not grow (`flex-grow: 0`), auto basis (`flex-basis: auto`), and stretches along the cross axis (`align-items: stretch`) when cross size is `auto`.
 - **Main axis vs cross axis (in horizontal LTR writing mode):**
 
-  ```text
-  row:                         column:
-  main axis →                  cross axis →
-  [ A ][ B ][ C ]               [ A ]
-  cross axis ↓                  [ B ]
-                                [ C ]
-                               main axis ↓
-  ```
-
   `row` follows the **inline** writing direction (flips in RTL); `column` follows the **block** direction.
+
+<div class="not-prose my-6 space-y-4 text-sm" role="group" aria-label="Main and cross axes in horizontal left-to-right writing">
+  <div class="flex flex-col gap-4 sm:flex-row">
+    <div class="min-w-0 flex-1">
+      <div class="mb-2 font-mono font-semibold">flex-direction: row</div>
+      <div class="flex h-40 items-start gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2">
+        <span>A</span>
+        <span>B</span>
+        <span>C</span>
+      </div>
+    </div>
+    <div class="min-w-0 flex-1">
+      <div class="mb-2 font-mono font-semibold">flex-direction: column</div>
+      <div class="flex h-40 flex-col items-start gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-1">
+        <span>A</span>
+        <span>B</span>
+        <span>C</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 ### Direction and wrapping (container properties)
 
@@ -43,6 +55,59 @@ Set `display: flex` (`flex`) or `display: inline-flex` (`inline-flex`) on a pare
 
 - **Independent wrapped lines:** Each wrapped flex line distributes free main-axis space independently, so items on different lines are not forced into shared columns. Wrapping a `column` container requires a constrained height (`height` / `max-height`).
 
+The source order in each diagram is A, B, C. Reversing direction moves main-start to the opposite edge:
+
+<div class="not-prose my-6 space-y-4 text-sm" role="group" aria-label="Reversed flex directions; source order remains A, B, C">
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">row-reverse · main axis ←</div>
+    <div class="flex flex-row-reverse gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span>A</span>
+      <span>B</span>
+      <span>C</span>
+    </div>
+  </div>
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">column-reverse · main axis ↑</div>
+    <div class="flex h-40 flex-col-reverse items-start gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-1 *:text-center">
+      <span>A</span>
+      <span>B</span>
+      <span>C</span>
+    </div>
+  </div>
+</div>
+
+Each item below takes two-fifths of the line width. The single-line example clips overflowing items without scrolling:
+
+<div class="not-prose my-6 space-y-4 text-sm" role="group" aria-label="Wrapping four equal-width items in horizontal left-to-right writing">
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">nowrap · one overflowing line</div>
+    <div class="flex flex-nowrap overflow-clip w-full max-w-64 gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span class="basis-2/5 shrink-0">A</span>
+      <span class="basis-2/5 shrink-0">B</span>
+      <span class="basis-2/5 shrink-0">C</span>
+      <span class="basis-2/5 shrink-0">D</span>
+    </div>
+  </div>
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">wrap · lines stack downward</div>
+    <div class="flex flex-wrap w-full max-w-64 gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span class="basis-2/5 shrink-0">A</span>
+      <span class="basis-2/5 shrink-0">B</span>
+      <span class="basis-2/5 shrink-0">C</span>
+      <span class="basis-2/5 shrink-0">D</span>
+    </div>
+  </div>
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">wrap-reverse · lines stack upward</div>
+    <div class="flex flex-wrap-reverse w-full max-w-64 gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span class="basis-2/5 shrink-0">A</span>
+      <span class="basis-2/5 shrink-0">B</span>
+      <span class="basis-2/5 shrink-0">C</span>
+      <span class="basis-2/5 shrink-0">D</span>
+    </div>
+  </div>
+</div>
+
 ## Alignment, gaps, and auto margins
 
 ### Main-axis distribution (`justify-content` on container)
@@ -58,6 +123,59 @@ Distributes remaining free space along the main axis **after** item flexing and 
 | `space-around`  | `justify-around`  | Equal space around each item (end gaps are half the inner gaps) |
 | `space-evenly`  | `justify-evenly`  | Identical gaps between items and at both ends                   |
 
+These rows use fixed-size items, leaving free space for <code>justify-content</code>:
+
+<div class="not-prose my-6 space-y-4 text-sm" role="group" aria-label="Comparison of all six justify-content values on a row">
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">flex-start</div>
+    <div class="flex justify-start gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span class="shrink-0">A</span>
+      <span class="shrink-0">B</span>
+      <span class="shrink-0">C</span>
+    </div>
+  </div>
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">flex-end</div>
+    <div class="flex justify-end gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span class="shrink-0">A</span>
+      <span class="shrink-0">B</span>
+      <span class="shrink-0">C</span>
+    </div>
+  </div>
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">center</div>
+    <div class="flex justify-center gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span class="shrink-0">A</span>
+      <span class="shrink-0">B</span>
+      <span class="shrink-0">C</span>
+    </div>
+  </div>
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">space-between</div>
+    <div class="flex justify-between rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span class="shrink-0">A</span>
+      <span class="shrink-0">B</span>
+      <span class="shrink-0">C</span>
+    </div>
+  </div>
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">space-around</div>
+    <div class="flex justify-around rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span class="shrink-0">A</span>
+      <span class="shrink-0">B</span>
+      <span class="shrink-0">C</span>
+    </div>
+  </div>
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">space-evenly</div>
+    <div class="flex justify-evenly rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span class="shrink-0">A</span>
+      <span class="shrink-0">B</span>
+      <span class="shrink-0">C</span>
+    </div>
+  </div>
+</div>
+
 ### Cross-axis alignment (`align-items`, `align-self`, `align-content`)
 
 | CSS value       | Container (`align-items`) | Item (`align-self`) | Multi-line (`align-content`) | Result                                                              |
@@ -71,6 +189,85 @@ Distributes remaining free space along the main axis **after** item flexing and 
 
 - `align-self: auto` (`self-auto`) inherits the container's `align-items`.
 - `align-content` has **zero effect** on single-line (`nowrap`) containers or when no spare cross-axis space exists.
+
+The first three rows and the baseline example use different text sizes. Stretch leaves item heights automatic:
+
+<div class="not-prose my-6 space-y-4 text-sm" role="group" aria-label="Cross-axis alignment of row items with different text sizes">
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">flex-start</div>
+    <div class="flex h-32 items-start gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span class="text-sm">A</span>
+      <span class="text-2xl">B</span>
+      <span class="text-4xl">C</span>
+    </div>
+  </div>
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">center</div>
+    <div class="flex h-32 items-center gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span class="text-sm">A</span>
+      <span class="text-2xl">B</span>
+      <span class="text-4xl">C</span>
+    </div>
+  </div>
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">flex-end</div>
+    <div class="flex h-32 items-end gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span class="text-sm">A</span>
+      <span class="text-2xl">B</span>
+      <span class="text-4xl">C</span>
+    </div>
+  </div>
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">stretch</div>
+    <div class="flex h-32 items-stretch gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span>A</span>
+      <span>B</span>
+      <span>C</span>
+    </div>
+  </div>
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">baseline</div>
+    <div class="flex h-32 items-baseline gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span class="text-sm">A</span>
+      <span class="text-2xl">B</span>
+      <span class="text-4xl">C</span>
+    </div>
+  </div>
+</div>
+
+<div class="not-prose my-6 space-y-4 text-sm" role="group" aria-label="An individual item overrides cross-axis alignment">
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">align-items: start · B has align-self: end</div>
+    <div class="flex h-32 items-start gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span>A</span>
+      <span class="self-end">B</span>
+      <span>C</span>
+    </div>
+  </div>
+</div>
+
+With wrapping and a fixed container height, <code>align-content</code> positions the whole lines:
+
+<div class="not-prose my-6 space-y-4 text-sm" role="group" aria-label="Packing two wrapped lines versus distributing lines across the container">
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">align-content: start</div>
+    <div class="flex h-48 max-w-64 flex-wrap content-start gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span class="basis-2/5">A</span>
+      <span class="basis-2/5">B</span>
+      <span class="basis-2/5">C</span>
+      <span class="basis-2/5">D</span>
+    </div>
+  </div>
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">align-content: space-between</div>
+    <div class="flex h-48 max-w-64 flex-wrap content-between gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span class="basis-2/5">A</span>
+      <span class="basis-2/5">B</span>
+      <span class="basis-2/5">C</span>
+      <span class="basis-2/5">D</span>
+    </div>
+  </div>
+</div>
 
 ### Gaps and `auto` margins
 
@@ -87,6 +284,17 @@ Set inner gutters between items and wrapped lines without outer container spacin
 - **Tailwind gaps:** `gap-4` (`1rem`), `gap-x-4` (`column-gap`), `gap-y-2` (`row-gap`).
 - **Auto margins (`margin-inline-start: auto` / `ms-auto`):** Absorb free main-axis space _before_ `justify-content` runs, pushing sibling groups to opposite ends of a toolbar.
 
+<div class="not-prose my-6 space-y-4 text-sm" role="group" aria-label="Auto margin absorbs remaining space before the last item">
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">gap: 0.5rem · C has margin-inline-start: auto</div>
+    <div class="flex items-center gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span>A</span>
+      <span>B</span>
+      <span class="ms-auto">C</span>
+    </div>
+  </div>
+</div>
+
 ## Item sizing: `flex-grow`, `flex-shrink`, and `flex-basis`
 
 Apply sizing properties to **flex items**, not the container:
@@ -100,6 +308,21 @@ Apply sizing properties to **flex items**, not the container:
 - **How `grow` and `shrink` math works:**
   - `flex-grow` divides **spare space**, not total width: two `100px`-basis items with `grow: 1` and `grow: 2` in a `500px` container split the `300px` remainder (`+100px` and `+200px`) into `200px` and `300px`.
   - `flex-shrink` scales by **basis × shrink factor**: `200px` and `100px` bases with `shrink: 1` in a `240px` container (`60px` overflow) lose `40px` (`2/3`) and `20px` (`1/3`), landing at `160px` and `80px`.
+
+The bars show the final proportions of those examples, scaled to the page width. Both calculations assume no gaps, padding, borders, or min/max-size constraints:
+
+<div class="not-prose my-6 space-y-4 text-sm" role="group" aria-label="Final item proportions for the growth and shrinkage calculations">
+  <div class="font-mono font-semibold">Growth · 100px + 100px → 200px + 300px</div>
+  <div class="flex rounded-lg bg-surface text-center">
+    <div class="w-2/5 min-w-0 rounded-s-lg bg-accent/15 p-3">A · 200px<br>grow: 1</div>
+    <div class="w-3/5 min-w-0 rounded-e-lg bg-accent/30 p-3">B · 300px<br>grow: 2</div>
+  </div>
+  <div class="font-mono font-semibold">Shrinkage · 200px + 100px → 160px + 80px</div>
+  <div class="flex rounded-lg bg-surface text-center">
+    <div class="w-2/3 min-w-0 rounded-s-lg bg-accent/15 p-3">A · 160px<br>−40px</div>
+    <div class="w-1/3 min-w-0 rounded-e-lg bg-accent/30 p-3">B · 80px<br>−20px</div>
+  </div>
+</div>
 
 ### `flex` shorthand presets
 
@@ -122,6 +345,17 @@ Apply sizing properties to **flex items**, not the container:
 
 - **Automatic minimum size (`min-width: auto` / `min-height: auto`):** Flex items refuse to shrink below their minimum content size by default, causing long unwrapped text or nested scroll areas to overflow. Set `min-width: 0` (`min-w-0`) on row items or `min-height: 0` (`min-h-0`) on column items so they can shrink and truncate/scroll.
 - **Visual reordering (`order`):** Lower `order` values render earlier (default `0`; ties follow DOM order; Tailwind `order-1`, `order-none`). **Accessibility caveat:** `order` and `*-reverse` directions change visual layout only—screen readers and `Tab` focus still follow DOM order.
+
+<div class="not-prose my-6 space-y-4 text-sm" role="group" aria-label="Visual order differs from the unchanged source order">
+  <div>
+    <div class="mb-2 font-mono font-semibold text-sm">Source: A, B, C · visual: B, A, C</div>
+    <div class="flex gap-2 rounded-lg bg-surface p-3 *:rounded *:border *:border-accent/40 *:bg-accent/15 *:px-3 *:py-2 *:text-center">
+      <span class="order-1">A · 1</span>
+      <span class="order-0">B · 0</span>
+      <span class="order-2">C · 2</span>
+    </div>
+  </div>
+</div>
 
 ## Layout recipes
 
