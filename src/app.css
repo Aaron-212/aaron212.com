@@ -31,7 +31,7 @@
 
 @utility prose-inline-code {
   & code:not(pre code) {
-    @apply rounded bg-surface px-1 py-0.5 font-medium;
+    @apply bg-surface rounded px-1 py-0.5 font-medium;
 
     &::before,
     &::after {

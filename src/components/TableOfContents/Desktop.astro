@@ -15,20 +15,20 @@ const t = messages[getLocale(Astro.currentLocale)];
 <nav
   aria-label={t.tocAriaLabel}
   data-table-of-contents
-  class="not-prose hidden bg-canvas pe-6 py-8 lg:sticky lg:top-12 lg:block lg:h-[calc(100dvh-3rem)] lg:w-64 lg:flex-none lg:overflow-y-auto lg:overscroll-y-contain 2xl:col-start-3 2xl:w-74 2xl:justify-self-end"
+  class="not-prose bg-canvas hidden py-8 pe-6 lg:sticky lg:top-12 lg:block lg:h-[calc(100dvh-3rem)] lg:w-64 lg:flex-none lg:overflow-y-auto lg:overscroll-y-contain 2xl:col-start-3 2xl:w-74 2xl:justify-self-end"
 >
-  <p class="mb-3 ps-6 text-sm font-semibold uppercase tracking-wide">{t.tocOnThisPage}</p>
+  <p class="mb-3 ps-6 text-sm font-semibold tracking-wide uppercase">{t.tocOnThisPage}</p>
   <div class="relative">
     <span
       aria-hidden="true"
-      class="pointer-events-none absolute inset-s-0 top-0 h-0 border-s-2 border-s-accent opacity-0 transition-[height,transform,opacity] duration-300 ease-out motion-reduce:transition-none"
+      class="border-s-accent pointer-events-none absolute inset-s-0 top-0 h-0 border-s-2 opacity-0 transition-[height,transform,opacity] duration-300 ease-out motion-reduce:transition-none"
       data-toc-indicator
     ></span>
     <ol lang={lang} class="text-sm">
       {headings.map(({ depth, slug, text }) => (
         <li
           class:list={[
-            "group py-1 text-foreground/60 transition-colors aria-[current=location]:text-accent hover:text-foreground line-clamp-1",
+            "group text-foreground/60 aria-[current=location]:text-accent hover:text-foreground line-clamp-1 py-1 transition-colors",
             {
               "ps-6": depth <= 2,
               "ps-10": depth === 3,

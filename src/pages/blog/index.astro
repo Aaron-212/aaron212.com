@@ -6,7 +6,7 @@ const posts = (await getCollection("blog")).sort((a, b) => b.data.date.valueOf()
 ---
 
 <BaseLayout title="Blog">
-  <div class="mx-auto py-12 max-w-4xl px-6 lg:py-20">
+  <div class="mx-auto max-w-4xl px-6 py-12 lg:py-20">
     <h1 class="mb-10 text-center text-4xl font-semibold lg:text-5xl">Blog</h1>
 
     <ul class="space-y-6">
@@ -14,12 +14,12 @@ const posts = (await getCollection("blog")).sort((a, b) => b.data.date.valueOf()
         <li>
           <a
             lang={post.data.lang}
-            class="text-xl font-semibold transition-colors hover:text-accent focus-visible:text-accent"
+            class="hover:text-accent focus-visible:text-accent text-xl font-semibold transition-colors"
             href={`/blog/${post.id}/`}
           >
             {post.data.title}
           </a>
-          <p class="mt-1 text-sm text-subtle">{post.data.date.toLocaleDateString("en")}</p>
+          <p class="text-subtle mt-1 text-sm">{post.data.date.toLocaleDateString("en")}</p>
         </li>
       ))}
     </ul>

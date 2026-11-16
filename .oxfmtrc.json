@@ -3,6 +3,7 @@
   "printWidth": 120,
   "tabWidth": 2,
   "astro": true,
+  "sortTailwindcss": true,
   "ignorePatterns": [
     "**/.astro/**",
     "**/build/**",
