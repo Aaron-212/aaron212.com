@@ -4,5 +4,19 @@
     "browser": true,
     "builtin": true,
     "node": true
+  },
+  "jsPlugins": ["eslint-plugin-better-tailwindcss"],
+  "settings": {
+    "better-tailwindcss": {
+      "entryPoint": "src/app.css"
+    }
+  },
+  "rules": {
+    "better-tailwindcss/enforce-canonical-classes": [
+      "warn",
+      {
+        "rootFontSize": 16
+      }
+    ]
   }
 }

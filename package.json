@@ -11,8 +11,8 @@
     "deploy": "astro build && wrangler deploy",
     "preview:workers": "astro build && wrangler preview",
     "check": "astro check",
-    "format": "oxfmt --ignore-path=.gitignore .",
-    "lint": "oxfmt --check --ignore-path=.gitignore . && oxlint --ignore-path=.gitignore ."
+    "format": "oxfmt .",
+    "lint": "oxlint ."
   },
   "devDependencies": {
     "@aaron212/astro-highlights": "^0.0.6",
@@ -28,6 +28,7 @@
     "@tailwindcss/vite": "^4.3.5",
     "astro": "^7.4.7",
     "astro-icon": "^1.2.0",
+    "eslint-plugin-better-tailwindcss": "^4.11.0",
     "oxfmt": "^0.77.0",
     "oxlint": "^1.92.0",
     "tailwindcss": "^4.3.5",
