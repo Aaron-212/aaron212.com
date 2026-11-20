@@ -8,8 +8,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "astro build && wrangler deploy",
-    "preview:workers": "astro build && wrangler preview",
+    "deploy": "astro build && cf deploy ./build",
+    "preview:workers": "astro build && cf previews deploy ./build",
     "check": "astro check",
     "format": "oxfmt .",
     "lint": "oxlint ."
@@ -28,12 +28,12 @@
     "@tailwindcss/vite": "^4.3.5",
     "astro": "^7.4.7",
     "astro-icon": "^1.2.0",
+    "cf": "1.0.0-rc.1",
     "eslint-plugin-better-tailwindcss": "^4.11.0",
     "oxfmt": "^0.77.0",
     "oxlint": "^1.92.0",
     "tailwindcss": "^4.3.5",
-    "typescript": "~6.0.3",
-    "wrangler": "^4.152.0"
+    "typescript": "~6.0.3"
   },
   "engines": {
     "node": "26.x",
