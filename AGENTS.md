@@ -15,10 +15,12 @@ The project targets `node@26` and uses `pnpm@12` (see `mise.toml`). Always execu
 
 - `mise exec -- pnpm run dev` starts the Astro development server.
 - `mise exec -- pnpm run check` runs Astro's type checks.
-- `mise exec -- pnpm run lint` checks oxfmt formatting and Oxlint rules.
+- `mise exec -- pnpm run lint` checks Oxlint rules.
 - `mise exec -- pnpm run format` applies oxfmt formatting across the repository.
 - `mise exec -- pnpm run build` produces the static production site in `build/`.
-- `mise exec -- pnpm run preview` serves the production build locally.
+- `mise exec -- pnpm run build:preview` serves the production build locally.
+- `mise exec -- pnpm run deploy` deploys the production site to Cloudflare Workers.
+- `mise exec -- pnpm run preview` deploys a branch preview to Cloudflare Workers.
 
 Run `mise exec -- pnpm run check`, `mise exec -- pnpm run lint`, and `mise exec -- pnpm run build` before opening a pull
 request. There is no dedicated automated test suite yet; add focused tests when introducing logic that needs regression

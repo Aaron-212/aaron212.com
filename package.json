@@ -7,12 +7,12 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
-    "deploy": "astro build && cf deploy ./build",
-    "preview:workers": "astro build && cf previews deploy ./build",
+    "build:preview": "astro preview",
+    "deploy": "pnpm run build && cf deploy ./build",
+    "preview": "pnpm run build && cf previews deploy ./build",
     "check": "astro check",
-    "format": "oxfmt .",
-    "lint": "oxlint ."
+    "format": "oxfmt",
+    "lint": "oxlint"
   },
   "devDependencies": {
     "@aaron212/astro-highlights": "^0.0.6",
