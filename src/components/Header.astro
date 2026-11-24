@@ -1,4 +1,11 @@
 ---
+import { getDocPath } from "@/lib/docs";
+import { getLocale } from "@/lib/i18n";
+import { Icon } from "astro-icon/components";
+import { getCollection } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import type { Locale } from "../../i18n.config";
+
 type Link = {
   label: string;
   href: string;
@@ -13,13 +20,8 @@ type LinkGroup = Link & {
   links: Sublink[];
 };
 
-import { getDocPath } from "@/lib/docs";
-import { getCollection } from "astro:content";
-import { getLocale } from "@/lib/i18n";
-import type { Locale } from "../../i18n.config";
-import { getRelativeLocaleUrl } from "astro:i18n";
-
 const en = {
+  skipToContent: "Skip to content",
   navHome: "Home",
   navAbout: "About",
   navProjects: "Projects",
@@ -38,6 +40,7 @@ const en = {
 const messages = {
   en,
   "zh-cn": {
+    skipToContent: "跳到正文",
     navHome: "首页",
     navAbout: "关于",
     navProjects: "项目",
@@ -57,14 +60,23 @@ const messages = {
 const locale = getLocale(Astro.currentLocale);
 const t = messages[locale];
 
+function normalizePath(path: string): string {
+  return path.length > 1 ? path.replace(/\/+$/, "") : path;
+}
+
+const currentPath = normalizePath(Astro.url.pathname);
+const isCurrentPage = (href: string): boolean => href.startsWith("/") && normalizePath(href) === currentPath;
+
 const latestPosts = (await getCollection("blog"))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
 
+const homeHref = getRelativeLocaleUrl(locale, "/");
+
 const links: LinkGroup[] = [
   {
     label: t.navHome,
-    href: getRelativeLocaleUrl(locale, "/"),
+    href: homeHref,
     links: [{ label: t.navAbout, href: getRelativeLocaleUrl(locale, "/about"), showOnMobile: true }],
   },
   {
@@ -103,22 +115,35 @@ const rightLinks = {
   ] satisfies Sublink[],
 };
 
-const mobileLinks = [
-  ...links.flatMap(({ label, href, links }) => [{ label, href }, ...links.filter(({ showOnMobile }) => showOnMobile)]),
+const mobileLinks: Link[] = [
+  ...links.flatMap(({ label, href, lang, links }) => [
+    { label, href, lang },
+    ...links.filter(({ showOnMobile }) => showOnMobile),
+  ]),
   ...rightLinks.links.filter(({ showOnMobile }) => showOnMobile),
 ];
-
-import { Icon } from "astro-icon/components";
 ---
 
 <header data-site-header class="pointer-events-none sticky top-0 z-50 h-12 select-none">
+  <a
+    href="#content"
+    class="bg-surface text-foreground focus-visible:outline-accent pointer-events-auto sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:px-3 focus:py-2 focus:text-sm focus:font-medium focus-visible:outline-2"
+  >
+    {t.skipToContent}
+  </a>
+
   <nav
     data-navigation
     aria-label={t.ariaMainNavigation}
-    class="bg-surface/80 pointer-events-auto relative flex h-12 w-full flex-col items-center overflow-clip backdrop-blur-xl transition-all duration-250 ease-in-out motion-reduce:transition-none"
+    class="bg-surface/80 pointer-events-auto relative flex h-12 w-full flex-col items-center overflow-clip backdrop-blur-xl transition-[height] duration-250 ease-in-out motion-reduce:transition-none"
   >
     <div class="mx-auto flex h-12 w-full max-w-4xl shrink-0 items-center gap-4 px-6">
-      <span class="text-foreground text-lg font-semibold select-none">Aaron212</span>
+      <a
+        href={homeHref}
+        class="text-foreground hover:text-accent focus-visible:text-accent focus-visible:outline-accent rounded text-lg font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+      >
+        Aaron212
+      </a>
 
       <div data-desktop-sections class="hidden items-center ps-2 lg:flex">
         {links.map((link, index) => (
@@ -126,6 +151,7 @@ import { Icon } from "astro-icon/components";
             <a
               class="text-foreground group-hover:text-accent group-has-focus-visible:text-accent transition-colors"
               href={link.href}
+              aria-current={isCurrentPage(link.href) ? "page" : undefined}
             >
               {link.label}
             </a>
@@ -135,7 +161,7 @@ import { Icon } from "astro-icon/components";
               aria-label={t.ariaSectionMenu(link.label)}
               aria-expanded="false"
               aria-controls={`site-submenu-${index}`}
-              class="group-hover:text-accent group-has-focus-visible:text-accent focus-visible:outline-accent flex min-h-11 min-w-6 shrink-0 cursor-pointer items-center justify-center rounded opacity-0 transition group-focus-within:opacity-100 group-hover:opacity-100 focus-visible:outline-2 focus-visible:-outline-offset-2 aria-expanded:opacity-100"
+              class="group-hover:text-accent group-has-focus-visible:text-accent focus-visible:outline-accent flex min-h-11 min-w-6 shrink-0 cursor-pointer items-center justify-center rounded opacity-0 transition group-focus-within:opacity-100 group-hover:opacity-100 focus-visible:outline-2 focus-visible:-outline-offset-2 aria-expanded:opacity-100 motion-reduce:transition-none"
             >
               <Icon name="fa7-solid:caret-down" class="size-4" />
             </button>
@@ -143,7 +169,7 @@ import { Icon } from "astro-icon/components";
               id={`site-submenu-${index}`}
               hidden
               data-section-panel
-              class="absolute top-10 left-1/2 z-10 flex w-full max-w-4xl -translate-x-1/2 flex-col gap-2 px-6 pt-10 transition-opacity duration-200 ease-in-out motion-reduce:transition-none"
+              class="absolute top-10 left-1/2 z-10 flex w-full max-w-4xl -translate-x-1/2 flex-col gap-2 px-6 pt-10"
             >
               <p class="text-muted text-sm">{link.label}</p>
               {link.links.map((sublink) => (
@@ -151,6 +177,7 @@ import { Icon } from "astro-icon/components";
                   class="text-foreground hover:text-accent focus-visible:text-accent w-fit text-2xl font-bold transition-colors duration-200 ease-in-out"
                   href={sublink.href}
                   lang={sublink.lang}
+                  aria-current={isCurrentPage(sublink.href) ? "page" : undefined}
                 >
                   {sublink.label}
                 </a>
@@ -170,7 +197,7 @@ import { Icon } from "astro-icon/components";
             aria-label={t.navOtherLinks}
             aria-expanded="false"
             aria-controls="site-submenu-other"
-            class="hover:text-accent focus-visible:text-accent focus-visible:outline-accent flex min-h-11 min-w-11 shrink-0 cursor-pointer items-center justify-center rounded transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2"
+            class="hover:text-accent focus-visible:text-accent focus-visible:outline-accent flex min-h-11 min-w-11 shrink-0 cursor-pointer items-center justify-center rounded transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 motion-reduce:transition-none"
           >
             <Icon name="fa7-solid:ellipsis" class="size-5" />
           </button>
@@ -178,13 +205,14 @@ import { Icon } from "astro-icon/components";
             id="site-submenu-other"
             hidden
             data-section-panel
-            class="absolute top-10 right-[max(1.5rem,calc((100%-56rem)/2+1.5rem))] z-10 flex flex-col items-end gap-2 pt-10"
+            class="absolute top-10 left-1/2 z-10 flex w-full max-w-4xl -translate-x-1/2 flex-col items-end gap-2 px-6 pt-10"
           >
             <p class="text-muted text-sm">{rightLinks.label}</p>
             {rightLinks.links.map((link) => (
               <a
                 class="text-foreground hover:text-accent focus-visible:text-accent text-2xl font-bold transition-colors"
                 href={link.href}
+                aria-current={isCurrentPage(link.href) ? "page" : undefined}
               >
                 {link.label}
               </a>
@@ -218,6 +246,8 @@ import { Icon } from "astro-icon/components";
               <a
                 class="text-foreground hover:text-accent focus-visible:text-accent text-2xl font-bold transition-colors duration-200 ease-in-out"
                 href={link.href}
+                lang={link.lang}
+                aria-current={isCurrentPage(link.href) ? "page" : undefined}
               >
                 {link.label}
               </a>
@@ -235,20 +265,28 @@ import { Icon } from "astro-icon/components";
   function setupNavigation() {
     cleanupNavigation?.();
 
-    const navigation = document.querySelector<HTMLElement>("[data-navigation]");
-    if (!navigation) return;
+    const nav = document.querySelector<HTMLElement>("[data-navigation]");
+    if (!nav) return;
+    const navigation = nav;
 
     const controller = new AbortController();
     const { signal } = controller;
-    const desktop = window.matchMedia("(min-width: 64rem) and (not (any-pointer: coarse))");
+    const desktop = window.matchMedia("(min-width: 64rem) and (not (pointer: coarse))");
     const hover = window.matchMedia("(hover: hover) and (pointer: fine)");
     const groups = Array.from(navigation.querySelectorAll<HTMLElement>("[data-section-group]"));
+    const mobileMenu = navigation.querySelector<HTMLDetailsElement>("[data-mobile-menu]");
     let active: { button: HTMLButtonElement; panel: HTMLElement } | undefined;
     let hoverTimer: ReturnType<typeof setTimeout> | undefined;
 
     function cancelHover() {
       clearTimeout(hoverTimer);
       hoverTimer = undefined;
+    }
+
+    function closeMobileMenu(restoreFocus = false) {
+      if (!mobileMenu?.open) return;
+      mobileMenu.open = false;
+      if (restoreFocus) mobileMenu.querySelector<HTMLElement>("summary")?.focus();
     }
 
     function closeMenu(restoreFocus = false) {
@@ -259,7 +297,7 @@ import { Icon } from "astro-icon/components";
       if (restoreFocus) button.focus();
       panel.hidden = true;
       button.setAttribute("aria-expanded", "false");
-      navigation?.removeAttribute("data-expanded");
+      navigation.removeAttribute("data-expanded");
     }
 
     function openMenu(button: HTMLButtonElement, panel: HTMLElement) {
@@ -271,7 +309,7 @@ import { Icon } from "astro-icon/components";
       active = { button, panel };
       panel.hidden = false;
       button.setAttribute("aria-expanded", "true");
-      navigation?.setAttribute("data-expanded", "");
+      navigation.setAttribute("data-expanded", "");
     }
 
     for (const group of groups) {
@@ -293,7 +331,8 @@ import { Icon } from "astro-icon/components";
         (event) => {
           cancelHover();
           if (!desktop.matches || !hover.matches || event.pointerType !== "mouse") return;
-          hoverTimer = setTimeout(() => openMenu(button, panel), 250);
+          if (active) openMenu(button, panel);
+          else hoverTimer = setTimeout(() => openMenu(button, panel), 250);
         },
         { signal },
       );
@@ -322,7 +361,10 @@ import { Icon } from "astro-icon/components";
     document.addEventListener(
       "pointerdown",
       (event) => {
-        if (!navigation.contains(event.target as Node)) closeMenu();
+        if (!navigation.contains(event.target as Node)) {
+          closeMenu();
+          closeMobileMenu();
+        }
       },
       { signal },
     );
@@ -332,25 +374,37 @@ import { Icon } from "astro-icon/components";
       (event) => {
         if (event.key !== "Escape") return;
         cancelHover();
-        if (!active) return;
-        const restoreFocus = active.button === document.activeElement || active.panel.contains(document.activeElement);
-        closeMenu(restoreFocus);
-        event.preventDefault();
+        if (active) {
+          const restoreFocus =
+            active.button === document.activeElement || active.panel.contains(document.activeElement);
+          closeMenu(restoreFocus);
+          event.preventDefault();
+        } else if (mobileMenu?.open) {
+          closeMobileMenu(mobileMenu.contains(document.activeElement));
+          event.preventDefault();
+        }
       },
       { signal },
     );
 
-    desktop.addEventListener("change", () => closeMenu(active?.panel.contains(document.activeElement)), { signal });
+    desktop.addEventListener(
+      "change",
+      () => {
+        closeMenu(active?.panel.contains(document.activeElement));
+        closeMobileMenu();
+      },
+      { signal },
+    );
     hover.addEventListener("change", cancelHover, { signal });
 
     cleanupNavigation = () => {
       closeMenu();
+      closeMobileMenu();
       controller.abort();
       cleanupNavigation = undefined;
     };
   }
 
-  setupNavigation();
   document.addEventListener("astro:page-load", setupNavigation);
   document.addEventListener("astro:before-swap", () => cleanupNavigation?.());
 </script>
@@ -360,11 +414,14 @@ import { Icon } from "astro-icon/components";
     position: fixed;
     inset: 0;
     z-index: -1;
-    background-color: transparent;
-    backdrop-filter: none;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    background-color: color-mix(in oklab, var(--color-surface) 25%, transparent);
+    backdrop-filter: blur(24px);
     transition:
-      background-color 250ms ease-in-out,
-      backdrop-filter 250ms ease-in-out;
+      opacity 250ms ease-in-out,
+      visibility 250ms ease-in-out;
     content: "";
   }
 
@@ -376,7 +433,7 @@ import { Icon } from "astro-icon/components";
     display: none;
   }
 
-  @media (max-width: 63.999rem), (any-pointer: coarse) {
+  @media (width < 64rem), (pointer: coarse) {
     [data-navigation]:has([data-mobile-menu][open]) {
       height: 75dvh;
       overflow-y: auto;
@@ -384,7 +441,7 @@ import { Icon } from "astro-icon/components";
     }
   }
 
-  @media (min-width: 64rem) {
+  @media (width >= 64rem) {
     [data-navigation][data-expanded] {
       height: 20rem;
       backdrop-filter: none;
@@ -392,11 +449,12 @@ import { Icon } from "astro-icon/components";
   }
 
   [data-site-header]:has([data-navigation][data-expanded], [data-mobile-menu][open])::before {
-    background-color: rgb(250 250 250 / 0.25);
-    backdrop-filter: blur(24px);
+    pointer-events: auto;
+    visibility: visible;
+    opacity: 1;
   }
 
-  @media (any-pointer: coarse) {
+  @media (pointer: coarse) {
     [data-desktop-sections],
     [data-desktop-other] {
       display: none;
@@ -407,18 +465,8 @@ import { Icon } from "astro-icon/components";
     }
   }
 
-  @media (prefers-color-scheme: dark) {
-    [data-site-header]:has([data-navigation][data-expanded], [data-mobile-menu][open])::before {
-      background-color: rgb(23 23 23 / 0.25);
-    }
-  }
-
   @media (prefers-reduced-motion: reduce) {
     [data-site-header]::before {
-      transition: none;
-    }
-
-    [data-section-trigger] {
       transition: none;
     }
   }
