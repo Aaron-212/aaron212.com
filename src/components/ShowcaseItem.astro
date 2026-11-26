@@ -54,7 +54,7 @@ interface Props {
 const { type, title, monospaceTitle, description, actions, icon, tag } = Astro.props;
 ---
 
-<article class="flex flex-col gap-4 pb-2 md:pb-4 md:gap-8">
+<article class="flex flex-col gap-4 pb-2 md:gap-8 md:pb-4">
   <div class="flex flex-row gap-4">
     <div class="flex flex-1 flex-col gap-2 md:gap-4">
       <div class="flex flex-col gap-0.5">
@@ -82,7 +82,7 @@ const { type, title, monospaceTitle, description, actions, icon, tag } = Astro.p
           <ArrowButton label={action.label} href={action.href} />
         ))}
       </div>
-      <hr class="border-0.5 mt-2 md:mt-4 border-slate-500/50" />
+      <hr class="border-0.5 mt-2 border-slate-500/50 md:mt-4" />
     </div>
 
     {icon ? (
