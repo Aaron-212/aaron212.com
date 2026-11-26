@@ -2,8 +2,3 @@ pmOnFail: "ignore"
 allowBuilds:
   esbuild: true
   workerd: true
-overrides:
-  "@emnapi/runtime": "^1.11.3"
-  "@emnapi/core": "^1.11.3"
-minimumReleaseAgeExclude:
-  - "@aaron212/astro-highlights@0.1.1"
