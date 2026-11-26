@@ -28,7 +28,7 @@
     "@tailwindcss/vite": "^4.3.5",
     "astro": "^7.4.13",
     "astro-icon": "^1.2.0",
-    "cf": "1.0.0-rc.2",
+    "cf": "^1.0.0-rc.5",
     "eslint-plugin-better-tailwindcss": "^4.11.0",
     "oxfmt": "^0.79.0",
     "oxlint": "^1.94.0",
