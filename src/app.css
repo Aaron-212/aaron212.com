@@ -40,9 +40,8 @@
   }
 }
 
-.astro-highlights,
-.astro-highlights span {
-  background-color: var(--color-surface) !important;
+.astro-highlights {
+  --astro-highlights-background: var(--color-surface);
 }
 
 .astro-pele {

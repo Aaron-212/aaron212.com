@@ -1,3 +1,5 @@
 pmOnFail: "ignore"
 allowBuilds:
   workerd: true
+minimumReleaseAgeExclude:
+  - "@aaron212/astro-highlights@0.1.2"

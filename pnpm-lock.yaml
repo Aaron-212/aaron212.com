@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@aaron212/astro-highlights':
-        specifier: ^0.1.1
-        version: 0.1.1(astro@7.4.13(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1))
+        specifier: ^0.1.2
+        version: 0.1.2(astro@7.4.13(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1))
       '@aaron212/astro-pele':
         specifier: ^0.1.3
         version: 0.1.3(@astrojs/markdown-satteri@0.4.10)(astro@7.4.13(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1))
@@ -68,8 +68,8 @@ importers:
 
 packages:
 
-  '@aaron212/astro-highlights@0.1.1':
-    resolution: {integrity: sha512-9CI7aNImVh1LCoAETM3iKijDpGym/eQRW0aHOVjli2iEVotLUY5bZYbscG/265s/8mVzyuBjPDUSDw5JrxHeTQ==}
+  '@aaron212/astro-highlights@0.1.2':
+    resolution: {integrity: sha512-3DHPj3j9TioQZiBERWE05P6UULmkCBc+Y6I1ueywoefn8wQX76Jn03FE5VWQ6QAapZEZZBz2gIf1dRmjhtlFnw==}
     engines: {node: '>=24'}
     peerDependencies:
       '@astrojs/markdown-satteri': ^0.3.7 || ^0.4.0
@@ -2542,7 +2542,7 @@ packages:
 
 snapshots:
 
-  '@aaron212/astro-highlights@0.1.1(astro@7.4.13(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1))':
+  '@aaron212/astro-highlights@0.1.2(astro@7.4.13(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1))':
     dependencies:
       '@astrojs/markdown-satteri': 0.4.10
       '@pierre/highlights': 0.5.2
